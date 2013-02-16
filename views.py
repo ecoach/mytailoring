@@ -5,15 +5,15 @@ from djangotailoring.views import TailoredDocView
 from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 #from django.core.context_processors import csrf
-from mycoach3.nav import Nav, Messages, StaffNav, DataLoaderNav
+from mycoach5.nav import Nav, Messages, StaffNav, DataLoaderNav
 from django.contrib.auth.models import User
 from djangotailoring.project import getsubjectloader
 from djangotailoring.subjects import DjangoSubjectLoader
 from django.views.generic import TemplateView
-from mycoach3.models import ELog, Survey_Log, UserProfile, Digestion, Digestion_Column
-from mydata3.models import W_13Data
-from mycoach3.viewmixins import SurveyTestcaseDataPrefillerMixin, configure_source_data
-from mycoach3.forms import ( 
+from mycoach5.models import ELog, Survey_Log, UserProfile, Digestion, Digestion_Column
+from mydata5.models import Source1
+from mycoach5.viewmixins import SurveyTestcaseDataPrefillerMixin, configure_source_data
+from mycoach5.forms import ( 
     Data_Loader_File_Upload_Form, 
     Data_Loader_File_Review_Form,
     Data_Loader_Data_Digest_Form,
@@ -77,9 +77,9 @@ class ECoach_Message_View(TailoredDocView):
     def template_name(self):
         has_side = self.m_nav.decide_template()
         if has_side: 
-            template = 'mycoach3/side.html'
+            template = 'mycoach5/side.html'
         else:
-            template = 'mycoach3/messages.html'
+            template = 'mycoach5/messages.html'
         return template
  
     #over ride context creation for the template
@@ -115,7 +115,7 @@ def Download_Mysql_View(request):
 def Download_Analysis_View(request):
     return redirect('/') # until it's fixed
     import os.path
-    from mycoach3.scripts.loader import Loader
+    from mycoach5.scripts.loader import Loader
 
     # if not admin don't do it
     staffmember = request.user.is_staff
@@ -157,10 +157,10 @@ class ECoach_Single_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, Si
     def template_name(self):
         has_side = self.m_nav.decide_template()
         if has_side: 
-            template = 'mycoach3/side.html'
+            template = 'mycoach5/side.html'
         else:
-            template = 'mycoach3/messages.html'
-            #template = 'mycoach3/surveys.html' 
+            template = 'mycoach5/messages.html'
+            #template = 'mycoach5/surveys.html' 
         return template
  
     #over ride context creation for the template
@@ -191,7 +191,7 @@ class ECoach_Multi_Survey_Mixin(SurveyTestcaseDataPrefillerMixin, LoginRequiredM
 
     @property 
     def template_name(self):
-        template = 'mycoach3/surveys.html'
+        template = 'mycoach5/surveys.html'
         return template
  
     #over ride context creation for the template
@@ -216,8 +216,8 @@ def Gen_Staff_View(request, **kwargs):
     return Message_Viewer_View.as_view()(request)
 
 class Message_Viewer_View(TailoredDocView):
-    #template_name='mycoach3/admin.html'
-    template_name='mycoach3/message_viewer.html'
+    #template_name='mycoach5/admin.html'
+    template_name='mycoach5/message_viewer.html'
     m_subloader = getsubjectloader()
     m_messages = Messages()
     @property 
@@ -323,7 +323,7 @@ def data_loader_file_upload(request):
             initial={'select_datafile' : df, 'select_idmap': mf}
         )
 
-    return render(request, 'mycoach3/data_loader_file_upload.html', {
+    return render(request, 'mycoach5/data_loader_file_upload.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -346,9 +346,9 @@ def mp_map_download(request):
         file_path = os.path.dirname(__file__) + '/uploads/other/' + file_name
         
         f = open(file_path, 'w')
-        # select MP_Name, user_id from mydata3_w_13data where not MP_Name=user_id group by MP_Name;  
-        new = W_13Data.objects.exclude(user_id__in=User.objects.filter(is_staff=True).values_list('username', flat=True)).values_list('MP_Name', 'user_id')
-        # old = W_13Data.objects.mp_names()
+        # select MP_Name, user_id from mydata5_Source1data where not MP_Name=user_id group by MP_Name;  
+        new = Source1.objects.exclude(user_id__in=User.objects.filter(is_staff=True).values_list('username', flat=True)).values_list('MP_Name', 'user_id')
+        # old = Source1.objects.mp_names()
         ss = ""
         # for nn in mp_names:
         for nn in new:
@@ -472,7 +472,7 @@ def data_loader_file_review(request):
             choices = data.heads_tuple()
         )
     
-    return render(request, 'mycoach3/data_loader_file_review.html', {
+    return render(request, 'mycoach5/data_loader_file_review.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -582,7 +582,7 @@ def data_loader_data_digest(request):
         digestion_columns = []
         digestion_columns_select = []
 
-    chars = W_13Data._meta.get_all_field_names()
+    chars = Source1._meta.get_all_field_names()
     chars.remove('id')
     chars.remove('user_id')
     chars.remove('updated')
@@ -612,7 +612,7 @@ def data_loader_data_digest(request):
         data.execute(digestion.function, digestion_columns_select) 
     except:
         pass
-    return render(request, 'mycoach3/data_loader_data_digest.html', {
+    return render(request, 'mycoach5/data_loader_data_digest.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -714,7 +714,7 @@ def data_loader_mts_load(request):
             initial = {'digestion_name' : digestion_name_reprint},
         )
 
-    return render(request, 'mycoach3/data_loader_mts_load.html', {
+    return render(request, 'mycoach5/data_loader_mts_load.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -764,7 +764,7 @@ def data_loader_archive(request):
     else:
         form = Data_Loader_Archive_Form()
 
-    return render(request, 'mycoach3/data_loader_archive.html', {
+    return render(request, 'mycoach5/data_loader_archive.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -775,14 +775,14 @@ def data_loader_archive(request):
 
 def data_loader_help(request):
 
-    return render(request, 'mycoach3/data_loader_help.html', {
+    return render(request, 'mycoach5/data_loader_help.html', {
         "nav_staff": StaffNav(request.path),
         "nav_loader": DataLoaderNav(request.path),
     })
 
 class Copy_Student_View(TemplateView):
-    #template_name='mycoach3/admin.html'
-    template_name='mycoach3/copy_student.html'
+    #template_name='mycoach5/admin.html'
+    template_name='mycoach5/copy_student.html'
  
     def dispatch(self, request, *args, **kwargs):
         from django.db.models import Count, Avg # import the aggregators of interest
@@ -797,8 +797,8 @@ class Copy_Student_View(TemplateView):
 
         # attempt to copy the student data
         try:        
-            me = W_13Data.objects.filter(user_id=request.user.username)[0]
-            you = W_13Data.objects.filter(user_id=self.m_copy)[0]
+            me = Source1.objects.filter(user_id=request.user.username)[0]
+            you = Source1.objects.filter(user_id=self.m_copy)[0]
             you.pk = me.pk
             you.uid = me.uid # this is effectively to ensure the user_id attribute of the table is correct
             you.save()
@@ -836,7 +836,7 @@ class Copy_Student_View(TemplateView):
         return context
 
 class Usage_Stats_View(TemplateView):
-    template_name='mycoach3/usage_stats.html'
+    template_name='mycoach5/usage_stats.html'
  
     def dispatch(self, request, *args, **kwargs):
         from django.db.models import Count, Avg, Q # import the aggregators of interest
@@ -852,32 +852,32 @@ class Usage_Stats_View(TemplateView):
             ff.course as course,
             DAYNAME(ll.mwhen) as dow,
             count(*) as cnt
-        from mycoach3_elog as ll
-        inner join mydata3_w_13data as ff on ff.user_id=ll.who
+        from mycoach5_elog as ll
+        inner join mydata5_Source1data as ff on ff.user_id=ll.who
         group by ff.course, dow
     order by course, cnt;
         """
  
-        W_13Data_students = W_13Data.objects.exclude(user_id='jtritz').exclude(user_id='mhuberth').exclude(user_id='tamckay').exclude(user_id='amymoors').exclude(user_id='no_data').exclude(user_id='jaredtritz@gmail.com').exclude(user_id='katemiller1027@gmail.com').exclude(user_id='murdockw')
+        Source1_students = Source1.objects.exclude(user_id='jtritz').exclude(user_id='mhuberth').exclude(user_id='tamckay').exclude(user_id='amymoors').exclude(user_id='no_data').exclude(user_id='jaredtritz@gmail.com').exclude(user_id='katemiller1027@gmail.com').exclude(user_id='murdockw')
         User_students = User.objects.exclude(username='jtritz').exclude(username='mhuberth').exclude(username='tamckay').exclude(username='amymoors').exclude(username='no_data').exclude(username='jaredtritz@gmail.com').exclude(username='katemiller1027@gmail.com').exclude(username='murdockw')
         ELog_students = ELog.objects.values('what').exclude(who='jtritz').exclude(who='mhuberth').exclude(who='tamckay').exclude(who='amymoors').exclude(who='jaredtritz@gmail.com').exclude(who='katemiller1027@gmail.com').exclude(who='murdockw')
 
-        self.m_surveys_completed = len(W_13Data_students.filter(First_Survey_Complete="Yes"))
+        self.m_surveys_completed = len(Source1_students.filter(First_Survey_Complete="Yes"))
         self.m_surveys_incomplete = len(User_students.filter(elog__what__contains="Survey").annotate(ecnt=Count('elog__what', distinct=True)).annotate(scnt=Count('survey_log__id', distinct=True)).filter(scnt__lt=1))
         self.m_surveys_not_started = len(User_students.exclude(elog__what__contains="Survey").distinct('username'))
 
-        #self.m_memorize_personal = len(W_13Data_students.filter(Q(Memorize_personal="Strongly_Agree") | Q(Memorize_personal="Agree")))
-        self.m_memorize_personal = len(W_13Data_students.filter((Q(Memorize_personal="Strongly_Agree") | Q(Memorize_personal="Agree")) & Q(First_Survey_Complete="Yes")))
-        self.m_math_confidence = len(W_13Data_students.filter((Q(Math_Confidence="Strongly_Agree") | Q(Math_Confidence="Agree")) & Q(First_Survey_Complete="Yes")))
-        self.m_trust_calc = len(W_13Data_students.filter((Q(Trust_Calculation="Strongly_Agree") | Q(Trust_Calculation="Agree")) & Q(First_Survey_Complete="Yes")))
-        self.m_hard_work_solve = len(W_13Data_students.filter((Q(Hard_work_personal_cant_solve="Strongly_Disagree") | Q(Hard_work_personal_cant_solve="Disagree")) & Q(First_Survey_Complete="Yes")))
-        self.m_innate = len(W_13Data_students.filter((Q(Innate="Strongly_Disagree") | Q(Innate="Disagree")) & Q(First_Survey_Complete="Yes")))
-        self.m_memorize_general = len(W_13Data_students.filter((Q(Memorize_general="Strongly_Agree") | Q(Memorize_general="Agree")) & Q(First_Survey_Complete="Yes")))
-        self.m_recall_formula = len(W_13Data_students.filter((Q(Recall_Formula="Strongly_Agree") | Q(Recall_Formula="Agree")) & Q(First_Survey_Complete="Yes")))
-        self.m_apply_principles = len(W_13Data_students.filter((Q(Apply_Principles="Strongly_Disgree") | Q(Apply_Principles="Disagree")) & Q(First_Survey_Complete="Yes")))
-        self.m_hard_work_understand = len(W_13Data_students.filter((Q(Hard_work_personal_understand="Strongly_Disgree") | Q(Hard_work_personal_understand="Disagree")) & Q(First_Survey_Complete="Yes")))
+        #self.m_memorize_personal = len(Source1_students.filter(Q(Memorize_personal="Strongly_Agree") | Q(Memorize_personal="Agree")))
+        self.m_memorize_personal = len(Source1_students.filter((Q(Memorize_personal="Strongly_Agree") | Q(Memorize_personal="Agree")) & Q(First_Survey_Complete="Yes")))
+        self.m_math_confidence = len(Source1_students.filter((Q(Math_Confidence="Strongly_Agree") | Q(Math_Confidence="Agree")) & Q(First_Survey_Complete="Yes")))
+        self.m_trust_calc = len(Source1_students.filter((Q(Trust_Calculation="Strongly_Agree") | Q(Trust_Calculation="Agree")) & Q(First_Survey_Complete="Yes")))
+        self.m_hard_work_solve = len(Source1_students.filter((Q(Hard_work_personal_cant_solve="Strongly_Disagree") | Q(Hard_work_personal_cant_solve="Disagree")) & Q(First_Survey_Complete="Yes")))
+        self.m_innate = len(Source1_students.filter((Q(Innate="Strongly_Disagree") | Q(Innate="Disagree")) & Q(First_Survey_Complete="Yes")))
+        self.m_memorize_general = len(Source1_students.filter((Q(Memorize_general="Strongly_Agree") | Q(Memorize_general="Agree")) & Q(First_Survey_Complete="Yes")))
+        self.m_recall_formula = len(Source1_students.filter((Q(Recall_Formula="Strongly_Agree") | Q(Recall_Formula="Agree")) & Q(First_Survey_Complete="Yes")))
+        self.m_apply_principles = len(Source1_students.filter((Q(Apply_Principles="Strongly_Disgree") | Q(Apply_Principles="Disagree")) & Q(First_Survey_Complete="Yes")))
+        self.m_hard_work_understand = len(Source1_students.filter((Q(Hard_work_personal_understand="Strongly_Disgree") | Q(Hard_work_personal_understand="Disagree")) & Q(First_Survey_Complete="Yes")))
 
-        self.m_slc_interest = len(W_13Data_students.filter(Q(SLC_Interest="Signed_Up") | Q(SLC_Interest="Yes_Not_Signed_Up")))
+        self.m_slc_interest = len(Source1_students.filter(Q(SLC_Interest="Signed_Up") | Q(SLC_Interest="Yes_Not_Signed_Up")))
 
         self.m_clicks_student = ELog_students.values('who').exclude(what__contains="Survey").annotate(wcnt=Count('who')).order_by('-wcnt')
 
@@ -891,10 +891,10 @@ class Usage_Stats_View(TemplateView):
         context["nav"] = self.m_nav
 
         #context["surveys"] = dict({'completed140': 20})
-        context["surveys"] = W_13Data.objects.survey_breakdown()
+        context["surveys"] = Source1.objects.survey_breakdown()
 
         #context["surveys_completed"] = self.m_surveys_completed
-        context["surveys_completed"] = W_13Data.objects.with_surveys()
+        context["surveys_completed"] = Source1.objects.with_surveys()
         context["surveys_incomplete"] = self.m_surveys_incomplete
         context["surveys_not_started"] = self.m_surveys_not_started
 
@@ -961,7 +961,7 @@ class Advice_1_Survey_View(ECoach_Multi_Survey_Mixin):
     def handle_end_of_survey(self):
         # (Pdb) self.request.user.get_profile().subjectloaderclass.get_subject('jtritz')[0].primary_chars["W_13"]["First_Name"]
         uname = self.request.user.username
-        you = W_13Data.objects.filter(user_id=uname)[0]
+        you = Source1.objects.filter(user_id=uname)[0]
         you.First_Survey_Complete = 'Yes' 
         you.Opt_Out = 'In' 
         you.uniqname = uname
@@ -1053,7 +1053,7 @@ class Opt_Out_Survey_View(ECoach_Multi_Survey_Mixin):
             return redirect('/w13physics/Initial_Survey/')
 
 class Email_Students_View(TailoredDocView):
-    template_name='mycoach3/email_students.html'
+    template_name='mycoach5/email_students.html'
 
     def dispatch(self, request, *args, **kwargs):
         # psudo constructor
@@ -1129,7 +1129,7 @@ class Email_Students_View(TailoredDocView):
         self.m_htmlcontent = get_html_content_reminder4()
 
     def construct_attachments(self):
-        self.m_attached_filepath = '/home/jared/bitbucket/ecoach_webapps/mycoach3/grade_prediction.png'
+        self.m_attached_filepath = '/home/jared/bitbucket/ecoach_webapps/mycoach5/grade_prediction.png'
 
 def savethis():
     from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
@@ -1158,9 +1158,9 @@ def savethis():
     message.attach_alternative(html_content, "text/html")
 
     #message.attach('design.png', img_data, 'image/png')
-    #message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach3/static/mycoach3/fall/images/ecoach_logo90x90.png')
+    #message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach5/static/mycoach5/fall/images/ecoach_logo90x90.png')
     #message.attach_file('/Users/jtritz/grade_prediction.png')
-    message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach3/grade_prediction.png')
+    message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach5/grade_prediction.png')
     if self.request.user.username == 'jtritz':
         pass #message.send()
 
@@ -1175,7 +1175,7 @@ def savethis():
 
 
 def get_recipients_signup_reminder():
-    recips = W_13Data.objects.exclude(First_Survey_Complete="Yes").exclude(Opt_Out="Out").exclude(Course_Reg__isnull=True).values_list('user_id') 
+    recips = Source1.objects.exclude(First_Survey_Complete="Yes").exclude(Opt_Out="Out").exclude(Course_Reg__isnull=True).values_list('user_id') 
     ret = []
     for rr in recips:
         ret.append(str(rr[0]) + '@umich.edu') 
@@ -1184,9 +1184,9 @@ def get_recipients_signup_reminder():
 
 def get_recipients_partial_survey():
     """
-    select * from mycoach3_elog as e1 inner join (select user_id from mydata3_w_13data where First_Survey_Complete is null and Opt_Out="In") as res1 on res1.user_id=e1.who order by who
+    select * from mycoach5_elog as e1 inner join (select user_id from mydata5_Source1data where First_Survey_Complete is null and Opt_Out="In") as res1 on res1.user_id=e1.who order by who
     """
-    recips = W_13Data.objects.exclude(First_Survey_Complete__isnull=True).exclude(Opt_Out="In").exclude(Course_Reg__isnull=True).values_list('user_id') 
+    recips = Source1.objects.exclude(First_Survey_Complete__isnull=True).exclude(Opt_Out="In").exclude(Course_Reg__isnull=True).values_list('user_id') 
     ret = []
     for rr in recips:
         ret.append(str(rr[0]) + '@umich.edu') 
@@ -1194,7 +1194,7 @@ def get_recipients_partial_survey():
     return ret
         
 def get_recipients_message_release():
-    recips = W_13Data.objects.filter(First_Survey_Complete="Yes").exclude(Course_Reg__isnull=True).values_list('user_id') 
+    recips = Source1.objects.filter(First_Survey_Complete="Yes").exclude(Course_Reg__isnull=True).values_list('user_id') 
     ret = []
     for rr in recips:
         ret.append(str(rr[0]) + '@umich.edu') 
