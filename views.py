@@ -77,9 +77,9 @@ class ECoach_Message_View(TailoredDocView):
     def template_name(self):
         has_side = self.m_nav.decide_template()
         if has_side: 
-            template = 'mycoach5/side.html'
+            template = 'mycoach/side.html'
         else:
-            template = 'mycoach5/messages.html'
+            template = 'mycoach/messages.html'
         return template
  
     #over ride context creation for the template
@@ -157,10 +157,10 @@ class ECoach_Single_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, Si
     def template_name(self):
         has_side = self.m_nav.decide_template()
         if has_side: 
-            template = 'mycoach5/side.html'
+            template = 'mycoach/side.html'
         else:
-            template = 'mycoach5/messages.html'
-            #template = 'mycoach5/surveys.html' 
+            template = 'mycoach/messages.html'
+            #template = 'mycoach/surveys.html' 
         return template
  
     #over ride context creation for the template
@@ -191,7 +191,7 @@ class ECoach_Multi_Survey_Mixin(SurveyTestcaseDataPrefillerMixin, LoginRequiredM
 
     @property 
     def template_name(self):
-        template = 'mycoach5/surveys.html'
+        template = 'mycoach/surveys.html'
         return template
  
     #over ride context creation for the template
@@ -216,8 +216,8 @@ def Gen_Staff_View(request, **kwargs):
     return Message_Viewer_View.as_view()(request)
 
 class Message_Viewer_View(TailoredDocView):
-    #template_name='mycoach5/admin.html'
-    template_name='mycoach5/message_viewer.html'
+    #template_name='mycoach/admin.html'
+    template_name='mycoach/message_viewer.html'
     m_subloader = getsubjectloader()
     m_messages = Messages()
     @property 
@@ -323,7 +323,7 @@ def data_loader_file_upload(request):
             initial={'select_datafile' : df, 'select_idmap': mf}
         )
 
-    return render(request, 'mycoach5/data_loader_file_upload.html', {
+    return render(request, 'mycoach/data_loader_file_upload.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -472,7 +472,7 @@ def data_loader_file_review(request):
             choices = data.heads_tuple()
         )
     
-    return render(request, 'mycoach5/data_loader_file_review.html', {
+    return render(request, 'mycoach/data_loader_file_review.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -612,7 +612,7 @@ def data_loader_data_digest(request):
         data.execute(digestion.function, digestion_columns_select) 
     except:
         pass
-    return render(request, 'mycoach5/data_loader_data_digest.html', {
+    return render(request, 'mycoach/data_loader_data_digest.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -714,7 +714,7 @@ def data_loader_mts_load(request):
             initial = {'digestion_name' : digestion_name_reprint},
         )
 
-    return render(request, 'mycoach5/data_loader_mts_load.html', {
+    return render(request, 'mycoach/data_loader_mts_load.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -764,7 +764,7 @@ def data_loader_archive(request):
     else:
         form = Data_Loader_Archive_Form()
 
-    return render(request, 'mycoach5/data_loader_archive.html', {
+    return render(request, 'mycoach/data_loader_archive.html', {
         "form": form,
         "args": request.GET,
         "nav_staff": StaffNav(request.path),
@@ -775,14 +775,14 @@ def data_loader_archive(request):
 
 def data_loader_help(request):
 
-    return render(request, 'mycoach5/data_loader_help.html', {
+    return render(request, 'mycoach/data_loader_help.html', {
         "nav_staff": StaffNav(request.path),
         "nav_loader": DataLoaderNav(request.path),
     })
 
 class Copy_Student_View(TemplateView):
-    #template_name='mycoach5/admin.html'
-    template_name='mycoach5/copy_student.html'
+    #template_name='mycoach/admin.html'
+    template_name='mycoach/copy_student.html'
  
     def dispatch(self, request, *args, **kwargs):
         from django.db.models import Count, Avg # import the aggregators of interest
@@ -836,7 +836,7 @@ class Copy_Student_View(TemplateView):
         return context
 
 class Usage_Stats_View(TemplateView):
-    template_name='mycoach5/usage_stats.html'
+    template_name='mycoach/usage_stats.html'
  
     def dispatch(self, request, *args, **kwargs):
         from django.db.models import Count, Avg, Q # import the aggregators of interest
@@ -1053,7 +1053,7 @@ class Opt_Out_Survey_View(ECoach_Multi_Survey_Mixin):
             return redirect('/w13physics/Initial_Survey/')
 
 class Email_Students_View(TailoredDocView):
-    template_name='mycoach5/email_students.html'
+    template_name='mycoach/email_students.html'
 
     def dispatch(self, request, *args, **kwargs):
         # psudo constructor
