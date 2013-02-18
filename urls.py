@@ -19,7 +19,7 @@ urlpatterns = patterns('',
 
     # login
     url(r'^'+settings.URL_SUB+'login/$', 'django.contrib.auth.views.login', {'template_name': 'mycoach/login.html'}),
-    url(r'^'+settings.URL_SUB+'logout', mylogout),
+    url(r'^'+settings.URL_SUB+'logout', mylogout, name='mylogout'),
 
     # surveys
     url(r'^'+settings.URL_SUB+'Opt_In/(?P<page_id>.*)$', login_required(Opt_Out_Survey_View.as_view())),

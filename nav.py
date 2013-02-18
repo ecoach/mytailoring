@@ -1,4 +1,5 @@
 import re
+from mycoach5 import settings
 
 class Messages:
     m_docs = dict() 
@@ -7,76 +8,76 @@ class Messages:
     def __init__(self):
         #self.m_docs["Welcome_Message"] = "Welcome_Message.messages"
 
-        self.m_docs["Advice_1_Home"] = "Advice_1/Advice_1_Home.messages"
-        self.m_docs["Advice_1_Homework"] = "Advice_1/Advice_1_Homework.messages"
-        self.m_docs["Advice_1_Lecture"] = "Advice_1/Advice_1_Lecture.messages"
-        self.m_docs["Advice_1_Exams"] = "Advice_1/Advice_1_Exams.messages"
-        #self.m_docs["Advice_1_Survey"] = "Advice_1/Advice_1_Survey.survey"
+        self.m_docs["Advice_1_Home"] = "Advice_1_Home.messages"
+        self.m_docs["Advice_1_Homework"] = "Advice_1_Homework.messages"
+        self.m_docs["Advice_1_Lecture"] = "Advice_1_Lecture.messages"
+        self.m_docs["Advice_1_Exams"] = "Advice_1_Exams.messages"
+        #self.m_docs["Advice_1_Survey"] = "Advice_1_Survey.survey"
 
-        self.m_docs["Exam_1_Prep_Home"] = "Exam_1_Prep/Exam_1_Prep_Home.messages"
-        self.m_docs["Exam_1_Prep_Homework"] = "Exam_1_Prep/Exam_1_Prep_Homework.messages"
-        self.m_docs["Exam_1_Prep_Lecture"] = "Exam_1_Prep/Exam_1_Prep_Lecture.messages"
-        self.m_docs["Exam_1_Prep_Exams"] = "Exam_1_Prep/Exam_1_Prep_Exams.messages"
-        self.m_docs["Exam_1_Prep_Survey"] = "Exam_1_Prep/Exam_1_Prep_Survey.survey"
+        self.m_docs["Exam_1_Prep_Home"] = "Exam_1_Prep_Home.messages"
+        self.m_docs["Exam_1_Prep_Homework"] = "Exam_1_Prep_Homework.messages"
+        self.m_docs["Exam_1_Prep_Lecture"] = "Exam_1_Prep_Lecture.messages"
+        self.m_docs["Exam_1_Prep_Exams"] = "Exam_1_Prep_Exams.messages"
+        self.m_docs["Exam_1_Prep_Survey"] = "Exam_1_Prep_Survey.survey"
 
-        self.m_docs["Exam_1_Response_Home"] = "Exam_1_Response/Exam_1_Response_Home.messages"
-        self.m_docs["Exam_1_Response_Homework"] = "Exam_1_Response/Exam_1_Response_Homework.messages"
-        self.m_docs["Exam_1_Response_Lecture"] = "Exam_1_Response/Exam_1_Response_Lecture.messages"
-        self.m_docs["Exam_1_Response_Exams"] = "Exam_1_Response/Exam_1_Response_Exams.messages"
-        self.m_docs["Exam_1_Response_Survey"] = "Exam_1_Response/Exam_1_Response_Survey.survey"
+        self.m_docs["Exam_1_Response_Home"] = "Exam_1_Response_Home.messages"
+        self.m_docs["Exam_1_Response_Homework"] = "Exam_1_Response_Homework.messages"
+        self.m_docs["Exam_1_Response_Lecture"] = "Exam_1_Response_Lecture.messages"
+        self.m_docs["Exam_1_Response_Exams"] = "Exam_1_Response_Exams.messages"
+        self.m_docs["Exam_1_Response_Survey"] = "Exam_1_Response_Survey.survey"
 
-        self.m_docs["Exam_2_Response_Home"] = "Exam_2_Response/Exam_2_Response_Home.messages"
-        self.m_docs["Exam_2_Response_Homework"] = "Exam_2_Response/Exam_2_Response_Homework.messages"
-        self.m_docs["Exam_2_Response_Lecture"] = "Exam_2_Response/Exam_2_Response_Lecture.messages"
-        self.m_docs["Exam_2_Response_Exams"] = "Exam_2_Response/Exam_2_Response_Exams.messages"
-        self.m_docs["Exam_2_Response_Survey"] = "Exam_2_Response/Exam_2_Response_Survey.survey"
-        self.m_docs["Exam_2_Response_Survey_Testimonial"] = "Exam_2_Response/Exam_2_Response_Survey_Testimonial.survey"
+        self.m_docs["Exam_2_Response_Home"] = "Exam_2_Response_Home.messages"
+        self.m_docs["Exam_2_Response_Homework"] = "Exam_2_Response_Homework.messages"
+        self.m_docs["Exam_2_Response_Lecture"] = "Exam_2_Response_Lecture.messages"
+        self.m_docs["Exam_2_Response_Exams"] = "Exam_2_Response_Exams.messages"
+        self.m_docs["Exam_2_Response_Survey"] = "Exam_2_Response_Survey.survey"
+        self.m_docs["Exam_2_Response_Survey_Testimonial"] = "Exam_2_Response_Survey_Testimonial.survey"
 
-        self.m_docs["Exam_3_Response_Home"] = "Exam_3_Response/Exam_3_Response_Home.messages"
-        self.m_docs["Exam_3_Response_Homework"] = "Exam_3_Response/Exam_3_Response_Homework.messages"
-        self.m_docs["Exam_3_Response_Lecture"] = "Exam_3_Response/Exam_3_Response_Lecture.messages"
-        self.m_docs["Exam_3_Response_Exams"] = "Exam_3_Response/Exam_3_Response_Exams.messages"
-        self.m_docs["Exam_3_Response_Survey"] = "Exam_3_Response/Exam_3_Response_Survey.survey"
+        self.m_docs["Exam_3_Response_Home"] = "Exam_3_Response_Home.messages"
+        self.m_docs["Exam_3_Response_Homework"] = "Exam_3_Response_Homework.messages"
+        self.m_docs["Exam_3_Response_Lecture"] = "Exam_3_Response_Lecture.messages"
+        self.m_docs["Exam_3_Response_Exams"] = "Exam_3_Response_Exams.messages"
+        self.m_docs["Exam_3_Response_Survey"] = "Exam_3_Response_Survey.survey"
 
-        self.m_docs["Final_Exam_Response_Home"] = "Final_Exam_Response/Final_Exam_Response_Home.messages"
-        self.m_docs["Final_Exam_Response_Homework"] = "Final_Exam_Response/Final_Exam_Response_Homework.messages"
-        self.m_docs["Final_Exam_Response_Lecture"] = "Final_Exam_Response/Final_Exam_Response_Lecture.messages"
-        self.m_docs["Final_Exam_Response_Exams"] = "Final_Exam_Response/Final_Exam_Response_Exams.messages"
-        self.m_docs["Final_Exam_Response_Survey"] = "Final_Exam_Response/Final_Exam_Response_Survey.survey"
+        self.m_docs["Final_Exam_Response_Home"] = "Final_Exam_Response_Home.messages"
+        self.m_docs["Final_Exam_Response_Homework"] = "Final_Exam_Response_Homework.messages"
+        self.m_docs["Final_Exam_Response_Lecture"] = "Final_Exam_Response_Lecture.messages"
+        self.m_docs["Final_Exam_Response_Exams"] = "Final_Exam_Response_Exams.messages"
+        self.m_docs["Final_Exam_Response_Survey"] = "Final_Exam_Response_Survey.survey"
 
-        self.m_docs["Test_Survey"] = "General/Test_Survey.survey"
-        self.m_docs["Opt_Out"] = "General/Opt_Out.survey"
+        self.m_docs["Test_Survey"] = "Test_Survey.survey"
+        self.m_docs["Opt_Out"] = "Opt_Out.survey"
 
-        self.m_docs["Profile"] = "General/Profile.messages"
-        self.m_docs["FAQ"] = "General/FAQ.messages"
+        self.m_docs["Profile"] = "Profile.messages"
+        self.m_docs["FAQ"] = "FAQ.messages"
 
         """
-        self.m_docs["Exam_1_Prep_Advice"] = "Exam_1_Prep/Exam_1_Prep_Advice.messages"
-        self.m_docs["Exam_1_Prep_Home"] = "Exam_1_Prep/Exam_1_Prep_Home.messages"
-        self.m_docs["Exam_1_Prep_Profile"] = "Exam_1_Prep/Exam_1_Prep_Profile.messages"
-        self.m_docs["Exam_1_Prep_Survey"] = "Exam_1_Prep/Exam_1_Prep_Survey.survey"
+        self.m_docs["Exam_1_Prep_Advice"] = "Exam_1_Prep_Advice.messages"
+        self.m_docs["Exam_1_Prep_Home"] = "Exam_1_Prep_Home.messages"
+        self.m_docs["Exam_1_Prep_Profile"] = "Exam_1_Prep_Profile.messages"
+        self.m_docs["Exam_1_Prep_Survey"] = "Exam_1_Prep_Survey.survey"
 
-        self.m_docs["Exam_1_Response_Advice"] = "Exam_1_Response/Exam_1_Response_Advice.messages"
-        self.m_docs["Exam_1_Response_Home"] = "Exam_1_Response/Exam_1_Response_Home.messages"
-        self.m_docs["Exam_1_Response_Profile"] = "Exam_1_Response/Exam_1_Response_Profile.messages"
-        self.m_docs["Exam_1_Response_Status"] = "Exam_1_Response/Exam_1_Response_Status.messages"
-        self.m_docs["Exam_1_Response_Survey"] = "Exam_1_Response/Exam_1_Response_Survey.survey"
+        self.m_docs["Exam_1_Response_Advice"] = "Exam_1_Response_Advice.messages"
+        self.m_docs["Exam_1_Response_Home"] = "Exam_1_Response_Home.messages"
+        self.m_docs["Exam_1_Response_Profile"] = "Exam_1_Response_Profile.messages"
+        self.m_docs["Exam_1_Response_Status"] = "Exam_1_Response_Status.messages"
+        self.m_docs["Exam_1_Response_Survey"] = "Exam_1_Response_Survey.survey"
 
-        self.m_docs["Exam_2_Response_Advice"] = "Exam_2_Response/Exam_2_Response_Advice.messages"
-        self.m_docs["Exam_2_Response_Home"] = "Exam_2_Response/Exam_2_Response_Home.messages"
-        self.m_docs["Exam_2_Response_Profile"] = "Exam_2_Response/Exam_2_Response_Profile.messages"
-        self.m_docs["Exam_2_Response_Status"] = "Exam_2_Response/Exam_2_Response_Status.messages"
-        self.m_docs["Exam_2_Response_Survey"] = "Exam_2_Response/Exam_2_Response_Survey.survey"
-        #self.m_docs["Exam_2_Response_Status_Survey"] = "Exam_2_Response/Exam_2_Response_Status_Survey.survey"
+        self.m_docs["Exam_2_Response_Advice"] = "Exam_2_Response_Advice.messages"
+        self.m_docs["Exam_2_Response_Home"] = "Exam_2_Response_Home.messages"
+        self.m_docs["Exam_2_Response_Profile"] = "Exam_2_Response_Profile.messages"
+        self.m_docs["Exam_2_Response_Status"] = "Exam_2_Response_Status.messages"
+        self.m_docs["Exam_2_Response_Survey"] = "Exam_2_Response_Survey.survey"
+        #self.m_docs["Exam_2_Response_Status_Survey"] = "Exam_2_Response_Status_Survey.survey"
 
-        self.m_docs["Exam_3_Response_Advice"] = "Exam_3_Response/Exam_3_Response_Advice.messages"
-        self.m_docs["Exam_3_Response_Home"] = "Exam_3_Response/Exam_3_Response_Home.messages"
-        self.m_docs["Exam_3_Response_Profile"] = "Exam_3_Response/Exam_3_Response_Profile.messages"
-        self.m_docs["Exam_3_Response_Status"] = "Exam_3_Response/Exam_3_Response_Status.messages"
+        self.m_docs["Exam_3_Response_Advice"] = "Exam_3_Response_Advice.messages"
+        self.m_docs["Exam_3_Response_Home"] = "Exam_3_Response_Home.messages"
+        self.m_docs["Exam_3_Response_Profile"] = "Exam_3_Response_Profile.messages"
+        self.m_docs["Exam_3_Response_Status"] = "Exam_3_Response_Status.messages"
  
-        self.m_docs["Final_Exam_Response_Home"] = "Final_Exam_Response/Final_Exam_Response_Home.messages"
-        self.m_docs["Final_Exam_Response_Status"] = "Final_Exam_Response/Final_Exam_Response_Status.messages"
-        self.m_docs["Final_Exam_Response_Survey"] = "Final_Exam_Response/Final_Exam_Response_Survey.survey"
+        self.m_docs["Final_Exam_Response_Home"] = "Final_Exam_Response_Home.messages"
+        self.m_docs["Final_Exam_Response_Status"] = "Final_Exam_Response_Status.messages"
+        self.m_docs["Final_Exam_Response_Survey"] = "Final_Exam_Response_Survey.survey"
         """ 
 
         self.m_docs["Debug_Message_2"] = "Debug_Message_2.messages"
@@ -111,7 +112,7 @@ class Messages:
 class Nav:
 
     def __init__(self, requested):
-        self.m_subsite = 'w13physics/'
+        self.m_subsite = settings.URL_SUB
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_menu = dict()
 
@@ -268,7 +269,7 @@ class Nav:
 class StaffNav:
 
     def __init__(self, requested):
-        self.m_subsite = 'w13physics/staff/'
+        self.m_subsite = settings.URL_SUB + 'staff/'
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_menu = dict()
 
@@ -380,7 +381,7 @@ class StaffNav:
 class DataLoaderNav:
 
     def __init__(self, requested):
-        self.m_subsite = 'w13physics/staff/data_loader/'
+        self.m_subsite = settings.URL_SUB + 'staff/data_loader/'
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_unique = ''
         self.m_menu = dict()

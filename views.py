@@ -810,18 +810,18 @@ class Copy_Student_View(TemplateView):
         #self.m_students = User.objects.annotate(clicks=Count('elog', distinct=True)).order_by('username').values(
         self.m_students = User.objects.values(
             'username', 
-            'w_13data__user_id', 
-            'w_13data__First_Survey_Complete', 
-            'w_13data__MP_Name',
-            'w_13data__First_Name',
-            'w_13data__Last_Name',
-            'w_13data__Gender',
-            'w_13data__Course',
-            'w_13data__Cum_GPA_Survey',
-            'w_13data__Semesters_Completed',
-            'w_13data__College',
-            'w_13data__Grade_Want',
-            'w_13data__Confidence').filter(w_13data__First_Survey_Complete='Yes').annotate(clicks=Count('elog', distinct=True)).order_by('username')
+            'source1__user_id', 
+            'source1__First_Survey_Complete', 
+            'source1__MP_Name',
+            'source1__First_Name',
+            'source1__Last_Name',
+            'source1__Gender',
+            'source1__Course',
+            'source1__Cum_GPA_Survey',
+            'source1__Semesters_Completed',
+            'source1__College',
+            'source1__Grade_Want',
+            'source1__Confidence').filter(source1__First_Survey_Complete='Yes').annotate(clicks=Count('elog', distinct=True)).order_by('username')
 
         return super(Copy_Student_View, self).dispatch(request, *args, **kwargs)
 
