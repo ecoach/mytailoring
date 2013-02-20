@@ -1069,7 +1069,9 @@ class Email_Students_View(TailoredDocView):
             self.construct_subject()
             self.construct_htmlcontent()
             self.construct_attachments()    
-            import pdb; pdb.set_trace() 
+            # hack alert :)
+            import os
+            os.system("source /home/jtritz/scripts/mycheckout.sh") 
             #self.mysend_mail()
 
         return super(Email_Students_View, self).dispatch(request, *args, **kwargs)
