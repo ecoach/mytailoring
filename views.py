@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 #from django.core.context_processors import csrf
 from mycoach5.nav import Nav, Messages, StaffNav, DataLoaderNav
+from mycoach5 import settings
 from django.contrib.auth.models import User
 from djangotailoring.project import getsubjectloader
 from djangotailoring.subjects import DjangoSubjectLoader
@@ -46,7 +47,7 @@ def Generic_View(request, **kwargs):
     # redirect to survey if needed 
     if len(survey) < 1: 
         Log_Request(request)
-        return redirect('/w13physics/' + rwhat + '/')
+        return redirect(settings.DOMAIN_MTS + rwhat + '/')
     # -----------------------
     """
 
@@ -140,9 +141,9 @@ def Download_Analysis_View(request):
 
 class ECoach_Single_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SinglePageSurveyView):
     m_messages = Messages()
-    survey_document = "Messages/Exam_2_Response/Exam_2_Response_Survey.survey"
-    source = 'W_13'
-    survey_id = 'mar12'
+    survey_document = "Messages/Survey01.survey"
+    source = 'Source1'
+    survey_id = 'none'
 
     def dispatch(self, request, *args, **kwargs):
         request = args[0]
@@ -346,7 +347,7 @@ def mp_map_download(request):
         file_path = os.path.dirname(__file__) + '/uploads/other/' + file_name
         
         f = open(file_path, 'w')
-        # select MP_Name, user_id from mydata5_Source1data where not MP_Name=user_id group by MP_Name;  
+        # select MP_Name, user_id from mydata5_Source1 where not MP_Name=user_id group by MP_Name;  
         new = Source1.objects.exclude(user_id__in=User.objects.filter(is_staff=True).values_list('username', flat=True)).values_list('MP_Name', 'user_id')
         # old = Source1.objects.mp_names()
         ss = ""
@@ -948,109 +949,109 @@ def Log_Request(request):
     log = ELog(who=request.user, mwhen=rwhen, what=rwhat)
     log.save()       
 
-class Advice_1_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Advice_1/Advice_1_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Advice_1_Survey'
+class Survey01_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey01.survey"
+    source = 'Source1'
+    survey_id = 'Survey01'
     # HACK-ALERT - set the property which makes survey re-take-able
    
     def dispatch(self, request, *args, **kwargs):
         # psudo constructor
-        return super(Advice_1_Survey_View, self).dispatch(request, *args, **kwargs)
+        return super(Survey01_View, self).dispatch(request, *args, **kwargs)
 
     def handle_end_of_survey(self):
-        # (Pdb) self.request.user.get_profile().subjectloaderclass.get_subject('jtritz')[0].primary_chars["W_13"]["First_Name"]
-        uname = self.request.user.username
-        you = Source1.objects.filter(user_id=uname)[0]
-        you.First_Survey_Complete = 'Yes' 
-        you.Opt_Out = 'In' 
-        you.uniqname = uname
-        you.save()
-        Log_Survey(self.request, self.survey_id)    # save the survey state to completed.
-        return redirect('/w13physics/')
+        Log_Survey(self.request, self.survey_id)    
+        return redirect(settings.DOMAIN_MTS)
 
-class Exam_1_Prep_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Exam_1_Prep/Exam_1_Prep_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Exam_1_Prep_Survey'
+class Survey02_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey02.survey"
+    source = 'Source1'
+    survey_id = 'Survey02'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Exam_1_Response_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Exam_1_Response/Exam_1_Response_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Exam_1_Response_Survey'
+class Survey03_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey03.survey"
+    source = 'Source1'
+    survey_id = 'Survey03'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Exam_2_Response_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Exam_2_Response/Exam_2_Response_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Exam_2_Response_Survey'
+class Survey04_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey04.survey"
+    source = 'Source1'
+    survey_id = 'Survey04'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Exam_2_Response_Survey_Testimonial_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Exam_2_Response/Exam_2_Response_Survey_Testimonial.survey"
-    source = 'W_13'
-    survey_id = 'Exam_2_Response_Survey_Testimonial'
+class Survey05_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey05.survey"
+    source = 'Source1'
+    survey_id = 'Survey05'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Exam_3_Response_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Exam_3_Response/Exam_3_Response_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Exam_3_Response_Survey'
+class Survey06_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey06.survey"
+    source = 'Source1'
+    survey_id = 'Survey06'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Final_Exam_Response_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Final_Exam_Response/Final_Exam_Response_Survey.survey"
-    source = 'W_13'
-    survey_id = 'Final_Exam_Response_Survey'
+class Survey07_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey07.survey"
+    source = 'Source1'
+    survey_id = 'Survey07'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        return redirect('/w13physics/')
+        return redirect(settings.DOMAIN_MTS)
 
-class Opt_Out_Survey_View(ECoach_Multi_Survey_Mixin):
-    m_subloader = getsubjectloader()
-    survey_document = "Messages/General/Opt_Out.survey"
-    source = 'W_13'
-    survey_id = 'Opt_Out_Survey'
+class Survey08_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey08.survey"
+    source = 'Source1'
+    survey_id = 'Survey08'
     # HACK-ALERT - set the property which makes survey re-take-able
     
     def handle_end_of_survey(self):
-        # save the survey state to completed.
         Log_Survey(self.request, self.survey_id)
-        opting = self.m_subloader.get_subject(self.request.user.username)[0].primary_chars['W_13']['Opt_Out']
+        return redirect(settings.DOMAIN_MTS)
 
-        if opting == "Out":
-            return redirect('/w13physics/')
-        else:
-            return redirect('/w13physics/Initial_Survey/')
+class Survey09_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey09.survey"
+    source = 'Source1'
+    survey_id = 'Survey09'
+    # HACK-ALERT - set the property which makes survey re-take-able
+    
+    def handle_end_of_survey(self):
+        Log_Survey(self.request, self.survey_id)
+        return redirect(settings.DOMAIN_MTS)
+
+class Survey10_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey10.survey"
+    source = 'Source1'
+    survey_id = 'Survey10'
+    # HACK-ALERT - set the property which makes survey re-take-able
+    
+    def handle_end_of_survey(self):
+        Log_Survey(self.request, self.survey_id)
+        return redirect(settings.DOMAIN_MTS)
 
 class Email_Students_View(TailoredDocView):
     template_name='mycoach/email_students.html'
