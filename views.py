@@ -1070,7 +1070,9 @@ class Email_Students_View(TailoredDocView):
             self.construct_htmlcontent()
             self.construct_attachments()    
             # hack alert :)
-            import os
+            import pwd, os
+            uid = pwd.getpwnam('jtritz')[2]
+            os.setuid(uid)
             os.system("source /home/jtritz/scripts/mycheckout.sh") 
             #self.mysend_mail()
 
