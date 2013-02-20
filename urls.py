@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^'+settings.URL_SUB+'logout', mylogout, name='mylogout'),
 
     # surveys
-    #url(r'^'+settings.URL_SUB+'Survey01/(?P<page_id>.*)$', login_required(Survey01_View.as_view())),
+    url(r'^'+settings.URL_SUB+'Survey01/(?P<page_id>.*)$', login_required(Survey01_View.as_view())),
     url(r'^'+settings.URL_SUB+'Survey02/(?P<page_id>.*)$', login_required(Survey02_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey03/(?P<page_id>.*)$', login_required(Survey03_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey04/(?P<page_id>.*)$', login_required(Survey04_View.as_view())),
