@@ -1071,9 +1071,16 @@ class Email_Students_View(TailoredDocView):
             self.construct_attachments()    
             # hack alert :)
             import pwd, os
-            uid = pwd.getpwnam('jtritz')[2]
-            os.setuid(uid)
+            #uid = pwd.getpwnam('jtritz')[2]
+            #os.setuid(uid)
             os.system("source /home/jtritz/scripts/mycheckout.sh") 
+
+            import pexpect
+            child = pexpect.spawn('sudo apachectl -k graceful')
+            #child.expect('[sudo] password for .*:')
+            #child.sendline(password)
+            child.interact()
+
             #self.mysend_mail()
 
         return super(Email_Students_View, self).dispatch(request, *args, **kwargs)
