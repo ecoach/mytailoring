@@ -1053,6 +1053,20 @@ class Survey10_View(ECoach_Multi_Survey_Mixin):
         Log_Survey(self.request, self.survey_id)
         return redirect(settings.DOMAIN_MTS)
 
+def mycheckout(request):
+    import pwd, os, pexpect
+    # os.system("source /Users/jtritz/scripts/mycheckout.sh") 
+    # return 
+    # uid = pwd.getpwnam('jtritz')[2]
+    # os.setuid(uid)
+    os.system("source /home/jtritz/scripts/mycheckout.sh") 
+
+    child = pexpect.spawn('sudo apachectl -k graceful')
+    # child.expect('[sudo] password for .*:')
+    # child.sendline(password)
+    child.interact()
+
+
 class Email_Students_View(TailoredDocView):
     template_name='mycoach/email_students.html'
 
@@ -1069,18 +1083,6 @@ class Email_Students_View(TailoredDocView):
             self.construct_subject()
             self.construct_htmlcontent()
             self.construct_attachments()    
-            # hack alert :)
-            import pwd, os
-            #uid = pwd.getpwnam('jtritz')[2]
-            #os.setuid(uid)
-            os.system("source /home/jtritz/scripts/mycheckout.sh") 
-
-            import pexpect
-            child = pexpect.spawn('sudo apachectl -k graceful')
-            #child.expect('[sudo] password for .*:')
-            #child.sendline(password)
-            child.interact()
-
             #self.mysend_mail()
 
         return super(Email_Students_View, self).dispatch(request, *args, **kwargs)
