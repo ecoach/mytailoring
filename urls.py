@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^'+settings.URL_SUB+'login/$', 'django.contrib.auth.views.login', {'template_name': 'mycoach/login.html'}),
     url(r'^'+settings.URL_SUB+'logout', mylogout, name='mylogout'),
     url(r'^'+settings.URL_SUB+'checkout/', mycheckout, name='mycheckout'),
+    url(r'^'+settings.URL_SUB+'checkback/', mycheckback, name='mycheckback'),
 
     # surveys
     url(r'^'+settings.URL_SUB+'Survey01/(?P<page_id>.*)$', login_required(Survey01_View.as_view())),

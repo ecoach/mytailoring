@@ -1066,6 +1066,8 @@ def mycheckout(request):
     # child.sendline(password)
     child.interact()
 
+def mycheckback(request):
+    return HttpResponse('reboot done')
 
 class Email_Students_View(TailoredDocView):
     template_name='mycoach/email_students.html'
