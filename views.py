@@ -101,7 +101,7 @@ def Download_Mysql_View(request):
     try:
         now = time.strftime('%Y-%m-%d-%H-%M-%S')         
         file_name = "mydb_" + now + ".sql"
-        file_path = "/srv/www/" + file_name
+        file_path = settings.DIR_COACH + "uploads/backups/" + file_name
         
         os.system("mysqldump -u ecoach -pecoach ecoach3 > " + file_path)
 
