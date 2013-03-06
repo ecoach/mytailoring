@@ -103,7 +103,7 @@ def Download_Mysql_View(request):
         file_name = "mydb_" + now + ".sql"
         file_path = settings.DIR_COACH + "uploads/backups/" + file_name
         
-        os.system("mysqldump -u ecoach -pecoach ecoach3 > " + file_path)
+        os.system("mysqldump -u ecoach -pecoach " + settings.DB_NAME + " > " + file_path)
 
         fsock = open(file_path,"rb")
         response = HttpResponse(fsock, content_type='application/octet-stream')
