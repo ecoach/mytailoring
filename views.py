@@ -389,9 +389,10 @@ def data_loader_file_review(request):
         # anyone who has logged into the system is reserved from mapping
         reserved = User.objects.values_list('username')
         reserved = [x[0] for x in reserved]
-        mapp  = MapFile(digestion.map_file.path, digestion.map_file.disk_name(), reserved) # assume id in row 1
+        map_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.map_file.path
+        mapp  = MapFile(map_file_path, digestion.map_file.disk_name(), reserved) # assume id in row 1
     except:
-        pass # for now...
+        return redirect('data_loader_file_upload')
 
     # rows map
     try:
@@ -426,7 +427,8 @@ def data_loader_file_review(request):
   
     # data  
     try: 
-        data  = CsvFile(digestion.data_file.path, digestion.data_file.disk_name(), digestion.get_id_column())
+        data_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.data_file.path
+        data  = CsvFile(data_file_path, digestion.data_file.disk_name(), digestion.get_id_column())
     except:
         return redirect('data_loader_file_upload')
 
@@ -512,9 +514,10 @@ def data_loader_data_digest(request):
         # anyone who has logged into the system is reserved from mapping
         reserved = User.objects.values_list('username')
         reserved = [x[0] for x in reserved]
-        mapp  = MapFile(digestion.map_file.path, digestion.map_file.disk_name(), reserved) # assume id in row 1
+        map_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.map_file.path
+        mapp  = MapFile(map_file_path, digestion.map_file.disk_name(), reserved) # assume id in row 1
     except:
-        pass # for now...
+        return redirect('data_loader_file_upload')
 
     # rows map
     try:
@@ -549,7 +552,8 @@ def data_loader_data_digest(request):
 
     # data  
     try:
-        data  = CsvFile(digestion.data_file.path, digestion.data_file.disk_name(), digestion.get_id_column())
+        data_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.data_file.path
+        data  = CsvFile(data_file_path, digestion.data_file.disk_name(), digestion.get_id_column())
     except:
         return redirect('data_loader_file_upload')
 
@@ -587,7 +591,6 @@ def data_loader_data_digest(request):
     chars.remove('id')
     chars.remove('user_id')
     chars.remove('updated')
-    chars.remove('uid')
     chars = sorted(chars)
     chars = tuple((cc, cc) for cc in chars)
 
@@ -645,9 +648,10 @@ def data_loader_mts_load(request):
         # anyone who has logged into the system is reserved from mapping
         reserved = User.objects.values_list('username')
         reserved = [x[0] for x in reserved]
-        mapp  = MapFile(digestion.map_file.path, digestion.map_file.disk_name(), reserved) # assume id in row 1
+        map_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.map_file.path
+        mapp  = MapFile(map_file_path, digestion.map_file.disk_name(), reserved) # assume id in row 1
     except:
-        pass # for now...
+        return redirect('data_loader_file_upload')
 
     # rows map
     try:
@@ -682,7 +686,8 @@ def data_loader_mts_load(request):
 
     # data
     try:
-        data  = CsvFile(digestion.data_file.path, digestion.data_file.disk_name(), digestion.get_id_column())
+        data_file_path = settings.MYCOACH_PROJECT_ROOT + digestion.data_file.path
+        data  = CsvFile(data_file_path, digestion.data_file.disk_name(), digestion.get_id_column())
     except:
         return redirect('data_loader_file_upload')
         
@@ -801,7 +806,8 @@ class Copy_Student_View(TemplateView):
             me = Source1.objects.filter(user_id=request.user.username)[0]
             you = Source1.objects.filter(user_id=self.m_copy)[0]
             you.pk = me.pk
-            you.uid = me.uid # this is effectively to ensure the user_id attribute of the table is correct
+            #you.uid = me.uid # this is effectively to ensure the user_id attribute of the table is correct
+            you.user_id = me.user_id
             you.save()
         except:
             pass
