@@ -1057,8 +1057,8 @@ def mycheckout(request):
     import pwd, os, pexpect
     # os.system("source /Users/jtritz/scripts/mycheckout.sh") 
     # return 
-    # uid = pwd.getpwnam('jtritz')[2]
-    # os.setuid(uid)
+    uid = pwd.getpwnam('jtritz')[2]
+    os.setuid(uid)
     os.system("source /home/jtritz/scripts/mycheckout.sh") 
 
     child = pexpect.spawn('sudo apachectl -k graceful')
