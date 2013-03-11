@@ -1061,7 +1061,8 @@ def mycheckout(request):
     os.setuid(uid)
     os.system("source /home/jtritz/scripts/mycheckout.sh") 
 
-    child = pexpect.spawn('sudo apachectl -k graceful')
+    #child = pexpect.spawn('sudo apachectl -k graceful')
+    child = pexpect.spawn('sudo service httpd restart')
     # child.expect('[sudo] password for .*:')
     # child.sendline(password)
     child.interact()
