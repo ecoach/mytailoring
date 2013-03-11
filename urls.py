@@ -53,7 +53,7 @@ urlpatterns = patterns('',
     # services
     url(r'^'+settings.URL_SUB+'download_analysis_db/', login_required(Download_Analysis_View), name='download_lite_db'),
     url(r'^'+settings.URL_SUB+'download_mysql_db/', login_required(Download_Mysql_View), name='download_mysql'),
-    url(r'^'+settings.URL_SUB+'use_data.log/$', login_required(Use_View), name='none'),
+    url(r'^'+settings.URL_SUB+'use_data.log/$', login_required(Use_View), name='data_log'),
     url(r'^'+settings.URL_SUB+'', login_required(ECoach_Message_View.as_view()), name='home'),
 )
 
