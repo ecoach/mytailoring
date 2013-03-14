@@ -1060,17 +1060,27 @@ class Survey10_View(ECoach_Multi_Survey_Mixin):
         return redirect(settings.DOMAIN_MTS)
 
 def mycheckout(request):
-    import pwd, os, pexpect
+    import pwd, os, pexpect, subprocess
     # os.system("source /Users/jtritz/scripts/mycheckout.sh") 
     # return 
-    # uid = pwd.getpwnam('jtritz')[2]
-    # os.setuid(uid)
+    #uid = pwd.getpwnam('jtritz')[2]
+    #os.setuid(uid)
     os.system("source /home/jtritz/scripts/mycheckout.sh") 
 
-    child = pexpect.spawn('sudo apachectl -k graceful')
+    #subprocess.Popen(['/usr/sbin/apachectl','restart'])
+
+    #child = pexpect.spawn('sudo /usr/sbin/apachectl restart')
+    child = pexpect.spawn('sudo -p -uapache /usr/sbin/apachectl -k graceful')
+    #child.expect('[sudo] password for .*:')
+    #child.sendline(password)
+    child.interact()
+
+
+    #child = pexpect.spawn('sudo apachectl -k graceful')
+    #child = pexpect.spawn('sudo service httpd restart')
     # child.expect('[sudo] password for .*:')
     # child.sendline(password)
-    child.interact()
+    #child.interact()
 
 def mycheckback(request):
     return HttpResponse('reboot done')
