@@ -141,9 +141,9 @@ def Download_Analysis_View(request):
 
 class ECoach_Single_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SinglePageSurveyView):
     m_messages = Messages()
-    survey_document = "Messages/Survey01.survey"
-    source = 'Source1'
-    survey_id = 'none'
+    survey_document = "path/to/survey.survey"
+    source = 'sourceTable'
+    survey_id = 'uniqueId'
 
     def dispatch(self, request, *args, **kwargs):
         request = args[0]
