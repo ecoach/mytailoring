@@ -1065,7 +1065,9 @@ def mycheckout(request):
     # return 
     #uid = pwd.getpwnam('jtritz')[2]
     #os.setuid(uid)
-    os.system("source /home/jtritz/scripts/mycheckout_mts5.sh") 
+    #os.system("source /home/jtritz/scripts/mycheckout_mts5.sh") 
+    cmd_str = "source " + settings.DIR_COACH + "checkout.sh"
+    os.system(cmd_str) 
 
     #subprocess.Popen(['/usr/sbin/apachectl','restart'])
 
