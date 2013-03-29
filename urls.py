@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     #url(r'^'+settings.URL_SUB+'Survey08/(?P<page_id>.*)$', login_required(Survey08_View.as_view())),
     url(r'^'+settings.URL_SUB+'Survey09/(?P<page_id>.*)$', login_required(Survey09_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey10/(?P<page_id>.*)$', login_required(Survey10_View.as_view())),
+    url(r'^'+settings.URL_SUB+'survey_thankyou/', login_required(survey_thankyou), name='survey_thankyou'),
 
     # staff
     url(r'^'+settings.URL_SUB+'staff/message_viewer/', login_required(Message_Viewer_View.as_view()), name='none'),

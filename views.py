@@ -1047,7 +1047,10 @@ class Survey09_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings.DOMAIN_MTS + 'survey_thankyou/')
+
+def survey_thankyou(request):
+    return render(request, 'mycoach/thankyou.html', {})
 
 class Survey10_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey10.survey"
