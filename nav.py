@@ -1,5 +1,5 @@
 import re
-from mycoach5 import settings
+from mycoach import settings
 
 class Messages:
     m_docs = dict() 

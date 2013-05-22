@@ -5,16 +5,16 @@ from djangotailoring.views import TailoredDocView
 from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 #from django.core.context_processors import csrf
-from mycoach5.nav import Nav, Messages, StaffNav, DataLoaderNav
-from mycoach5 import settings
+from mycoach.nav import Nav, Messages, StaffNav, DataLoaderNav
+from mycoach import settings
 from django.contrib.auth.models import User
 from djangotailoring.project import getsubjectloader
 from djangotailoring.subjects import DjangoSubjectLoader
 from django.views.generic import TemplateView
-from mycoach5.models import ELog, Survey_Log, UserProfile, Digestion, Digestion_Column
-from mydata5.models import Source1
-from mycoach5.viewmixins import SurveyTestcaseDataPrefillerMixin, configure_source_data
-from mycoach5.forms import ( 
+from mycoach.models import ELog, Survey_Log, UserProfile, Digestion, Digestion_Column
+from mydata4.models import Source1
+from mycoach.viewmixins import SurveyTestcaseDataPrefillerMixin, configure_source_data
+from mycoach.forms import ( 
     Data_Loader_File_Upload_Form, 
     Data_Loader_File_Review_Form,
     Data_Loader_Data_Digest_Form,
@@ -116,7 +116,7 @@ def Download_Mysql_View(request):
 def Download_Analysis_View(request):
     return redirect('/') # until it's fixed
     import os.path
-    from mycoach5.scripts.loader import Loader
+    from mycoach.scripts.loader import Loader
 
     # if not admin don't do it
     staffmember = request.user.is_staff
@@ -347,7 +347,7 @@ def mp_map_download(request):
         file_path = os.path.dirname(__file__) + '/uploads/other/' + file_name
         
         f = open(file_path, 'w')
-        # select MP_Name, user_id from mydata5_Source1 where not MP_Name=user_id group by MP_Name;  
+        # select MP_Name, user_id from mydata4_Source1 where not MP_Name=user_id group by MP_Name;  
         new = Source1.objects.exclude(user_id__in=User.objects.filter(is_staff=True).values_list('username', flat=True)).values_list('MP_Name', 'user_id')
         # old = Source1.objects.mp_names()
         ss = ""
@@ -859,8 +859,8 @@ class Usage_Stats_View(TemplateView):
             ff.course as course,
             DAYNAME(ll.mwhen) as dow,
             count(*) as cnt
-        from mycoach5_elog as ll
-        inner join mydata5_Source1data as ff on ff.user_id=ll.who
+        from mycoach_elog as ll
+        inner join mydata4_Source1 as ff on ff.user_id=ll.who
         group by ff.course, dow
     order by course, cnt;
         """
@@ -1169,7 +1169,7 @@ class Email_Students_View(TailoredDocView):
         self.m_htmlcontent = get_html_content_reminder4()
 
     def construct_attachments(self):
-        self.m_attached_filepath = '/home/jared/bitbucket/ecoach_webapps/mycoach5/grade_prediction.png'
+        self.m_attached_filepath = '/home/jared/bitbucket/ecoach_webapps/mycoach/grade_prediction.png'
 
 def savethis():
     from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
@@ -1198,9 +1198,9 @@ def savethis():
     message.attach_alternative(html_content, "text/html")
 
     #message.attach('design.png', img_data, 'image/png')
-    #message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach5/static/mycoach5/fall/images/ecoach_logo90x90.png')
+    #message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach/static/mycoach/fall/images/ecoach_logo90x90.png')
     #message.attach_file('/Users/jtritz/grade_prediction.png')
-    message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach5/grade_prediction.png')
+    message.attach_file('/home/jared/bitbucket/ecoach_webapps/mycoach/grade_prediction.png')
     if self.request.user.username == 'jtritz':
         pass #message.send()
 
@@ -1224,7 +1224,7 @@ def get_recipients_signup_reminder():
 
 def get_recipients_partial_survey():
     """
-    select * from mycoach5_elog as e1 inner join (select user_id from mydata5_Source1data where First_Survey_Complete is null and Opt_Out="In") as res1 on res1.user_id=e1.who order by who
+    select * from mycoach_elog as e1 inner join (select user_id from mydata4_Source1data where First_Survey_Complete is null and Opt_Out="In") as res1 on res1.user_id=e1.who order by who
     """
     recips = Source1.objects.exclude(First_Survey_Complete__isnull=True).exclude(Opt_Out="In").exclude(Course_Reg__isnull=True).values_list('user_id') 
     ret = []
@@ -1240,195 +1240,5 @@ def get_recipients_message_release():
         ret.append(str(rr[0]) + '@umich.edu') 
         
     return ret
-
-def get_html_content_exam1_prep_release():
-    html_content = """
-    <p>
-    Hello,
-    </p>
-
-    <p>
-    With your first midterm just around the corner E<sup>2</sup>Coach has released its second set of <b>tailored</b> messages.  These messages are aimed at reminding you how important the first exam is and helping direct your preperation.
-    </p>
-    
-    <p>
-    You can find your messages here: <a href='https://ecoach.lsa.umich.edu/w13physics/'>https://ecoach.lsa.umich.edu/w13physics/</a>
-    </p>
-
-    <p>
-    Sincerely,
-    </p>
-
-    <p>
-    Your E<sup>2</sup>Coaches: 
-    </p>
-
-    Tim McKay: Arthur F. Thurnau Professor of Physics, Director of the LSA Honors Program
-    <br>
-    Madeline Huberth: E<sup>2</sup>Coach Tailoring Specialist, 2011 UM Physics Grad and Gates Cambridge Scholar 
-    <br>
-    Jared Tritz: E<sup>2</sup>Coach Programmer, Founder of Cransort, designs fruit sorting machines
-    """
-    return html_content
- 
-def get_html_content_partial_survey():
-    html_content = """
-    <p>
-    Hello,
-    </p>
-
-    <p>
-    It appears you partially completed the sign up survey for ECoach...
-    </p>
-    """
-    return html_content
-    
-def get_html_content_reminder2():
-    html_content = """
-<p>
-Greetings! 
-</p>
-
-<p>
-Introductory Physics is challenging, and we'd like to offer you the opportunity to take advantage of E<sup>2</sup>Coach: our new Expert Electronic Coach for students taking on tough classes at Michigan. 
-</p>
-
-<p>
-We have built this system especially for physics to provide you with personalized feedback, encouragement, and advice from former students, all based on your background and how you're doing in the class. E<sup>2</sup>Coach was first launched in January 2012, and students who have used it have outperformed those who don't by a quarter letter grade (moving from a B+ to an A- for example). It really helps to get specific advice and use it to optimize your studying!
-</p>
-
-<p>
-Among many other things, E<sup>2</sup>Coach will help you to know whether you're on track by giving you personal grade predictions after every exam, you will find an example from last term attached. This term you will be able to adjust your future scores and see where your grade lands.
-</p>
-
-<p>
-This student really struggled on the first exam, recognized he was in trouble and adopted changes to his study habits recommended by E<sup>2</sup>Coach. He more than double his second exam score and ended up improving from a D to a B-! He was able to learn from former students who found their way to success in this class. Here's an example of their advice:
-</p>
-
-<p>
-<center>
-<i>
-"Change your Study Habits. Find new study tactics and find out your exact week points.  One of my friends was too proud to ask for help, and when she did ask she would pretend like she understood the explanation the first time when really she needed more help. If you don't understand something, fix it!"
-</i>
-</center>
-</p>
-
-<p>
-To take advantage of the free personalized support E<sup>2</sup>Coach provides, please go to: <a href='https://ecoach.lsa.umich.edu/w13physics/Opt_In/'>https://ecoach.lsa.umich.edu/w13physics/Opt_In/</a> and opt in.  Then complete the 10 minute survey telling us more about your background, why you're taking this class, and how you plan to go about it. That's all you need to do. Using this information and the course gradebook, E<sup>2</sup>Coach will immediately start giving you personalized advice. You'll get a big batch of advice this week before the first exam, in response to each of the three midterms, and again at the end of the course.  You may also opt out from this survey and we won't send you any more reminder email!
-</p>
-
-<p>
-If you want to learn more first go to <a href='https://ecoach.lsa.umich.edu/'>https://ecoach.lsa.umich.edu/</a>, and you'll land on the course selection page. From there, you can learn more about what E<sup>2</sup>Coach has to offer. Each semester we've added new functionality and the advice engine is getting better.  The 'Press' tab on that page will show you some articles and podcasts about the system. If you have questions or comments about the system please send an email to ecoach-help@umich.edu.
-</p>
-
-<p>
-Sincerely,
-</p>
-
-<p>
-Your E<sup>2</sup>Coaches: 
-</p>
-
-Tim McKay: Arthur F. Thurnau Professor of Physics, Director of the LSA Honors Program
-<br>
-Madeline Huberth: E<sup>2</sup>Coach Tailoring Specialist, 2011 UM Physics Grad and Gates Cambridge Scholar 
-<br>
-Jared Tritz: E<sup>2</sup>Coach Programmer, Founder of Cransort, designs fruit sorting machines
-        """
-    return html_content
-
-def get_html_content_reminder3():
-    html_content = """
-<p>
-Hello again :)
-</p>
-
-<p>
-This is your last reminder to sign up for E<sup>2</sup>Coach before the first exam! Sign up now and recieve <b>tailored</b> exam prep messages meant to focus and encourage you.
-</p>
-
-<p>
-Later in the semester the tailored version of E<sup>2</sup>Coach will help you to know whether you're on track by giving you personal grade predictions after every exam. This term you will be able to adjust your future scores and see where your grade lands.
-</p>
-
-<p>
-To take advantage of the free personalized support E<sup>2</sup>Coach provides, please go to: <a href='https://ecoach.lsa.umich.edu/w13physics/Opt_In/'>https://ecoach.lsa.umich.edu/w13physics/Opt_In/</a> and opt in.  Then complete the 10 minute survey telling us more about your background, why you're taking this class, and how you plan to go about it. That's all you need to do. Using this information along with data from the gradebook, E<sup>2</sup>Coach will provide you personalized support throughout the semester.  If you don't want to sign up for E<sup>2</sup>Coach or recieve any more reminders the first survey question allows you to opt out.  
-</p>
-
-<p>
-If you want to learn more first go to <a href='https://ecoach.lsa.umich.edu/'>https://ecoach.lsa.umich.edu/</a>, and you'll land on the course selection page. From there, you can learn more about what E<sup>2</sup>Coach has to offer. Each semester we've added new functionality and the advice engine is getting better.  The 'Press' tab on that page will show you some articles and podcasts about the system. If you have questions or comments about the system please send an email to ecoach-help@umich.edu.
-</p>
-
-<p>
-Sincerely,
-</p>
-
-<p>
-Your E<sup>2</sup>Coaches: 
-</p>
-
-Tim McKay: Arthur F. Thurnau Professor of Physics, Director of the LSA Honors Program
-<br>
-Madeline Huberth: E<sup>2</sup>Coach Tailoring Specialist, 2011 UM Physics Grad and Gates Cambridge Scholar 
-<br>
-Jared Tritz: E<sup>2</sup>Coach Programmer, Founder of Cransort, designs fruit sorting machines
-        """
-    return html_content
-
-def get_html_content_exam1_response_release():
-    html_content = """
-<p>
-Hello and congratulations on completing the first exam :)
-</p>
-
-<p>
-If you haven't noticed it yet your E<sup>2</sup>Coach account was updated last night in response to the first exam data.  Some of you will find messages there enouraging you to keep going with whatever you did and some of you who didn't do as well will find messages aimed at helping you realize what changes are likely to help.  In all cases there is normalized class performance data to review, so here are your messages: <a href='https://ecoach.lsa.umich.edu/w13physics/'>https://ecoach.lsa.umich.edu/w13physics/</a>.  Also, the grade prediction has boxes to edit your future scores and predict your grade :) 
-</p>
-
-<p>
-Enjoy and let us know if there is anything we can do to help.
-</p>
-
-<p>
-Sincerely,
-</p>
-
-<p>
-Your E<sup>2</sup>Coaches: 
-</p>
-
-Tim McKay: Arthur F. Thurnau Professor of Physics, Director of the LSA Honors Program
-<br>
-Madeline Huberth: E<sup>2</sup>Coach Tailoring Specialist, 2011 UM Physics Grad and Gates Cambridge Scholar 
-<br>
-Jared Tritz: E<sup>2</sup>Coach Programmer, Founder of Cransort, designs fruit sorting machines
-        """
-    return html_content
-
-def get_html_content_reminder4():
-    html_content = """
-<p>
-Your first exam is out of the way! Whether you did well or not E<sup>2</sup>Coach may be of value to you as you gear up for the next midterm.
-</p>
-
-<p>
-We are still allowing late sign ups to E<sup>2</sup>Coach for a couple more weeks and registered users will recieve personal advice as well as access to normative data about class performance.  To enroll in E<sup>2</sup>Coach simply go here and complete the online survey <a href='https://ecoach.lsa.umich.edu/w13physics/Opt_In/'>https://ecoach.lsa.umich.edu/w13physics/Opt_In/</a>.  From the same link you can choose to opt out and not receive further email reminders as well.
-</p>
-
-<p>
-Most sincerely,
-</p>
-
-<p>
-Your E<sup>2</sup>Coaches: 
-</p>
-
-Tim McKay: Arthur F. Thurnau Professor of Physics, Director of the LSA Honors Program
-<br>
-Madeline Huberth: E<sup>2</sup>Coach Tailoring Specialist, 2011 UM Physics Grad and Gates Cambridge Scholar 
-<br>
-Jared Tritz: E<sup>2</sup>Coach Programmer, Founder of Cransort, designs fruit sorting machines
-        """
-    return html_content
 
 

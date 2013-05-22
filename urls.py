@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import patterns, include, url
-from mycoach5.views import *
+from mycoach.views import *
 from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import redirect_to
-from mycoach5 import settings
+from mycoach import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
