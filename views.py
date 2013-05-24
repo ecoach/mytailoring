@@ -61,15 +61,11 @@ class ECoach_Message_View(TailoredDocView):
     def message_document(self): 
         msgid = self.m_nav.get_msgdoc()
         msg = self.m_messages.pathto(msgid)
-        return msg
+        return "Messages/testing.messages"
 
     @property 
     def template_name(self):
-        has_side = self.m_nav.decide_template()
-        if has_side: 
-            template = 'mycoach/side.html'
-        else:
-            template = 'new_base.html'
+        template = 'mycoach/messages.html'
         return template
  
     #over ride context creation for the template
