@@ -4,7 +4,7 @@ from djangotailoring.views import TailoredDocView
 from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from mycoach.nav import Nav, Messages, StaffNav, DataLoaderNav
-from mycoach import settings
+from mysettings import settings_mts4
 from django.contrib.auth.models import User
 from djangotailoring.project import getsubjectloader
 from djangotailoring.subjects import DjangoSubjectLoader
@@ -167,7 +167,7 @@ class Survey01_View(ECoach_Multi_Survey_Mixin):
 
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey02_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey02.survey"
@@ -177,7 +177,7 @@ class Survey02_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey03_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey03.survey"
@@ -187,7 +187,7 @@ class Survey03_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey04_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey04.survey"
@@ -197,7 +197,7 @@ class Survey04_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey05_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey05.survey"
@@ -207,7 +207,7 @@ class Survey05_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey06_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey06.survey"
@@ -217,7 +217,7 @@ class Survey06_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey07_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey07.survey"
@@ -227,7 +227,7 @@ class Survey07_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey08_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey08.survey"
@@ -237,7 +237,7 @@ class Survey08_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 class Survey09_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey09.survey"
@@ -247,7 +247,7 @@ class Survey09_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS + 'survey_thankyou/')
+        return redirect(settings_mts4.DOMAIN_MTS + 'survey_thankyou/')
 
 def survey_thankyou(request):
     return render(request, 'mycoach/thankyou.html', {})
@@ -260,6 +260,6 @@ class Survey10_View(ECoach_Multi_Survey_Mixin):
     
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings_mts4.DOMAIN_MTS)
 
 

@@ -1,5 +1,5 @@
 import re
-from mycoach import settings
+from mysettings import settings_mts4
 
 class Messages:
     m_docs = dict() 
@@ -112,7 +112,7 @@ class Messages:
 class Nav:
 
     def __init__(self, requested):
-        self.m_subsite = settings.URL_SUB
+        self.m_subsite = settings_mts4.URL_SUB
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_menu = dict()
 
@@ -269,7 +269,7 @@ class Nav:
 class StaffNav:
 
     def __init__(self, requested):
-        self.m_subsite = settings.URL_SUB + 'staff/'
+        self.m_subsite = settings_mts4.URL_SUB + 'staff/'
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_menu = dict()
 
@@ -381,7 +381,7 @@ class StaffNav:
 class DataLoaderNav:
 
     def __init__(self, requested):
-        self.m_subsite = settings.URL_SUB + 'staff/data_loader/'
+        self.m_subsite = settings_mts4.URL_SUB + 'staff/data_loader/'
         self.m_requested = [] # not initializing this killed me for 2 hours!
         self.m_unique = ''
         self.m_menu = dict()
