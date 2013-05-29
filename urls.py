@@ -26,16 +26,16 @@ urlpatterns = patterns('',
 
     # surveys
     url(r'^'+settings.URL_SUB+'Survey01/(?P<page_id>.*)$', login_required(Survey01_View.as_view())),
-    url(r'^'+settings.URL_SUB+'Survey02/(?P<page_id>.*)$', login_required(Survey02_View.as_view())),
+    #url(r'^'+settings.URL_SUB+'Survey02/(?P<page_id>.*)$', login_required(Survey02_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey03/(?P<page_id>.*)$', login_required(Survey03_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey04/(?P<page_id>.*)$', login_required(Survey04_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey05/(?P<page_id>.*)$', login_required(Survey05_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey06/(?P<page_id>.*)$', login_required(Survey06_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey07/(?P<page_id>.*)$', login_required(Survey07_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey08/(?P<page_id>.*)$', login_required(Survey08_View.as_view())),
-    url(r'^'+settings.URL_SUB+'Survey09/(?P<page_id>.*)$', login_required(Survey09_View.as_view())),
+    #url(r'^'+settings.URL_SUB+'Survey09/(?P<page_id>.*)$', login_required(Survey09_View.as_view())),
     #url(r'^'+settings.URL_SUB+'Survey10/(?P<page_id>.*)$', login_required(Survey10_View.as_view())),
-    url(r'^'+settings.URL_SUB+'survey_thankyou/', login_required(survey_thankyou), name='survey_thankyou'),
+    #url(r'^'+settings.URL_SUB+'survey_thankyou/', login_required(survey_thankyou), name='survey_thankyou'),
 
     # staff
     #url(r'^'+settings.URL_SUB+'staff/message_viewer/', login_required(Message_Viewer_View.as_view()), name='none'),
