@@ -18,4 +18,3 @@ class SettingsBackend(object):
             return None
 
 
-

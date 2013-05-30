@@ -126,7 +126,11 @@ def Gen_Staff_View(request, **kwargs):
         #Log_Request(request)
         return redirect('/')
 
-    return Message_Viewer_View.as_view()(request)
+    return render_to_response('staff_page.html', 
+        {   'steps': ['Step1: xxx','Step2: xxx',  'Step3: xxx', 'Step4: xxx'], 
+            'tasks': ['Email Students', 'Site Statistics', 'Upload Data', 'Export Data']
+        })
+
 
 class Survey01_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Messages/Survey01.survey"

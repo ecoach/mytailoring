@@ -50,7 +50,7 @@ urlpatterns = patterns('',
     #url(r'^'+settings.URL_SUB+'staff/data_loader/archive/', login_required(data_loader_archive), name='data_loader_archive'),
     #url(r'^'+settings.URL_SUB+'staff/data_loader/help/', login_required(data_loader_help), name='data_loader_help'),
     #url(r'^'+settings.URL_SUB+'staff/data_loader/', login_required(data_loader_file_upload), name='data_loader'),
-    #url(r'^'+settings.URL_SUB+'staff/', login_required(Gen_Staff_View), name='gen_staff_view'),
+    url(r'^'+settings.URL_SUB+'staff/', login_required(Gen_Staff_View), name='gen_staff_view'),
 
     # services
     #url(r'^'+settings.URL_SUB+'download_analysis_db/', login_required(Download_Analysis_View), name='download_lite_db'),
