@@ -35,6 +35,7 @@ class ECoach_Message_View(TailoredDocView):
         msgid = self.m_nav.get_msgdoc()
         msg = self.m_messages.pathto(msgid)
         return "Messages/testing.messages"
+        # return "Surveys/testsurvey.survey"
 
     @property 
     def template_name(self):
