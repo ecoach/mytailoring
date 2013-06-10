@@ -15,8 +15,8 @@ def message_view(request, **kwargs):
     mview = ECoach_Message_View.as_view()
     return mview(
         request, 
-        message='testing',
-        #message='widgets', 
+        #message='testing',
+        message='widgets', 
         t_name='mycoach/messages.html',
         main_nav=main_nav(request.user, 'student_view')
         )
