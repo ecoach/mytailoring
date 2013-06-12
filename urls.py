@@ -15,7 +15,8 @@ urlpatterns = patterns('',
     #url(r'^survey/(?P<page_id>.*)$', login_required(survey_view), name='survey_view'),
 
     # messages
-    url(r'^(?P<msg_id>.*)$', login_required(message_view), name='message_view'),
+    url(r'^message/(?P<msg_id>.*)$', login_required(message_view), name='message_view'),
+    url(r'^', login_required(message_view), {'msg_id': 'testing'}, name='default'),
     #url(r'^', login_required(ECoach_Message_View.as_view()), name='home'),
 )
 
