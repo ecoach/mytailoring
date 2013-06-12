@@ -16,7 +16,8 @@ def message_view(request, **kwargs):
     return mview(
         request, 
         #message='testing',
-        message='widgets', 
+        #message='widgets', 
+        message=kwargs['msg_id'], 
         t_name='mycoach/messages.html',
         main_nav=main_nav(request.user, 'student_view')
         )
