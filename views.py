@@ -13,11 +13,16 @@ from djangotailoring.surveys.views import SinglePageSurveyView, SimpleSurveyView
 
 def message_view(request, **kwargs):
     mview = ECoach_Message_View.as_view()
+    # hack the default message for now
+    if kwargs['msg_id'] != '':
+        msg = kwargs['msg_id']
+    else:
+        msg = 'testing'
     return mview(
         request, 
         #message='testing',
         #message='widgets', 
-        message=kwargs['msg_id'], 
+        message=msg, 
         t_name='mycoach/messages.html',
         main_nav=main_nav(request.user, 'student_view')
         )
