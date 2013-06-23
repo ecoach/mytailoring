@@ -4,7 +4,7 @@ from django.conf import settings
 from djangotailoring.views import TailoredDocView
 from djangotailoring.project import getsubjectloader
 from mynav.nav import main_nav
-
+from .nav import inbox_nav
 """
 from djangotailoring.subjects import DjangoSubjectLoader
 from djangotailoring.views import UserProfileSubjectMixin, LoginRequiredMixin
@@ -24,6 +24,7 @@ def message_view(request, **kwargs):
         #message='widgets', 
         message=msg, 
         t_name='mycoach/messages.html',
+        inbox_nav=inbox_nav(request.user, msg),
         main_nav=main_nav(request.user, 'student_view')
         )
 
@@ -39,6 +40,7 @@ class ECoach_Message_View(TailoredDocView):
         request = args[0]
         self.template_name = kwargs['t_name']
         self.message_document = 'Messages/' + kwargs['message'] + '.messages'
+        self.inbox_nav = kwargs['inbox_nav']
         self.main_nav = kwargs['main_nav']
         #configure_source_data(request.user.username)
         return super(ECoach_Message_View, self).dispatch(*args, **kwargs)
@@ -47,5 +49,6 @@ class ECoach_Message_View(TailoredDocView):
     def get_context_data(self, **kwargs):
         context = super(ECoach_Message_View, self).get_context_data(**kwargs)
         context["main_nav"] = self.main_nav
+        context["inbox_nav"] = self.inbox_nav
         return context
  
