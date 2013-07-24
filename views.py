@@ -60,6 +60,21 @@ def survey_preview_view(request, **kwargs):
         main_nav=main_nav(request.user, 'student_view')
         )
 
+def survey_frame_view(request, **kwargs):
+    mview = ECoach_Survey_Preview_View.as_view()
+    # hack the default message for now
+    if kwargs['survey_id'] != '':
+        survey = kwargs['survey_id']
+    else:
+        survey = 'testsurvey'
+    return mview(
+        request, 
+        survey=survey, 
+        t_name='mycoach/surveyframe.html',
+        inbox_nav=inbox_nav(request.user, survey),
+        main_nav=main_nav(request.user, 'student_view')
+        )
+
 class ECoach_Survey_Preview_View(TailoredDocView):
 
     def dispatch(self, *args, **kwargs):

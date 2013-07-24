@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^message/(?P<msg_id>.*)$', login_required(message_view), name='message_view'),
     # re-use the message view to view surveys
     url(r'^survey/(?P<survey_id>.*)$', login_required(survey_preview_view), name='survey_preview'),
+    url(r'^surveyframe/(?P<survey_id>.*)$', login_required(survey_frame_view), name='survey_preview'),
     url(r'^', login_required(message_view), {'msg_id': ''}, name='default'),
     #url(r'^', login_required(ECoach_Message_View.as_view()), name='home'),
 )
