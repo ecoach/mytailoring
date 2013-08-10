@@ -5,7 +5,11 @@ import base64
 import json
 from datetime import datetime
 
-from mydata4.models import Source1
+# mydataX imports
+from django.conf import settings
+from django.utils.importlib import import_module
+mydata = import_module(settings.MYDATA)
+Source1 = mydata.models.Source1
 
 # Create your models here.
 
