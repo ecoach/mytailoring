@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.conf import settings
 from djangotailoring.views import TailoredDocView
 from djangotailoring.project import getsubjectloader
@@ -7,11 +7,16 @@ from datetime import date
 from datetime import datetime
 from mynav.nav import main_nav
 from .nav import inbox_nav
-"""
 from djangotailoring.subjects import DjangoSubjectLoader
 from djangotailoring.views import UserProfileSubjectMixin, LoginRequiredMixin
 from djangotailoring.surveys.views import SinglePageSurveyView, SimpleSurveyView
-"""
+# mydataX imports
+from django.utils.importlib import import_module
+mydata = import_module(settings.MYDATA)
+#Source1 = mydata.models.Source1
+myutils = import_module(settings.MYDATA + '.utils')
+configure_source_data = myutils.configure_source_data
+
 
 def message_view(request, **kwargs):
     mview = ECoach_Message_View.as_view()
@@ -146,6 +151,49 @@ class ECoach_Survey_Preview_View(TailoredDocView):
         context["inbox_nav"] = self.inbox_nav
         return context
 
+class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurveyView):
+    survey_document = "none"
+    source = 'none' # example
+    survey_id = 'none' # example
+
+    def dispatch(self, *args, **kwargs):
+        # psudo constructor
+        request = args[0]
+        configure_source_data(request.user.username)
+        #Log_Request(request)
+        return super(ECoach_Multi_Survey_Mixin, self).dispatch(*args, **kwargs)
+
+    @property 
+    def template_name(self):
+        template = 'mycoach/surveys.html'
+        return template
+ 
+    #over ride context creation for the template
+    def get_context_data(self, **kwargs):
+        context = super(ECoach_Multi_Survey_Mixin, self).get_context_data(**kwargs)
+        #context["nav"] = self.m_nav
+        return context
+
+    def on_valid_submission(self):
+        self.save_subject(self.request_subject)
+
+    def handle_end_of_survey(self):
+        return redirect('/')
+
+class MCDB_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Surveys/mcdb310initial.survey"
+    source = 'Source1'
+    survey_id = 'mcdb310initial'
+    # HACK-ALERT - set the property which makes survey re-take-able
+   
+    def dispatch(self, request, *args, **kwargs):
+        # psudo constructor
+        return super(MCDB_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
+
+    def handle_end_of_survey(self):
+        #Log_Survey(self.request, self.survey_id)    
+        return redirect(settings.DOMAIN_COACH)
+
 """
 class ECoach_Survey_Preview_View(TailoredDocView):
 
@@ -165,7 +213,6 @@ class ECoach_Survey_Preview_View(TailoredDocView):
         return context
 
 class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurveyView):
-    m_messages = Messages()
     survey_document = "none"
     source = 'none' # example
     survey_id = 'none' # example
@@ -173,7 +220,7 @@ class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, Sim
     def dispatch(self, *args, **kwargs):
         # psudo constructor
         request = args[0]
-        configure_source_data(request.user.username)
+        #configure_source_data(request.user.username)
         #Log_Request(request)
         return super(ECoach_Multi_Survey_Mixin, self).dispatch(*args, **kwargs)
 
@@ -206,6 +253,7 @@ class ECoach_Survey_View(ECoach_Multi_Survey_Mixin):
 
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_MTS)
+        return redirect(settings.DOMAIN_COACH)
 """
+
 
