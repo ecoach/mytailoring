@@ -194,6 +194,20 @@ class MCDB_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
         #Log_Survey(self.request, self.survey_id)    
         return redirect(settings.DOMAIN_COACH)
 
+class Physics_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Surveys/PhysicsSurvey.survey"
+    source = 'Source1'
+    survey_id = 'PhysicsSurvey'
+    # HACK-ALERT - set the property which makes survey re-take-able
+   
+    def dispatch(self, request, *args, **kwargs):
+        # psudo constructor
+        return super(Physics_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
+
+    def handle_end_of_survey(self):
+        #Log_Survey(self.request, self.survey_id)    
+        return redirect(settings.DOMAIN_COACH)
+
 """
 class ECoach_Survey_Preview_View(TailoredDocView):
 

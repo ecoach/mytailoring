@@ -20,6 +20,7 @@ urlpatterns = patterns('',
 
     # surveys
     url(r'^survey/mcdb310initial/(?P<page_id>.*)$', login_required(MCDB_Initial_Survey_View.as_view())),
+    url(r'^survey/PhysicsSurvey/(?P<page_id>.*)$', login_required(Physics_Initial_Survey_View.as_view())),
 
     # re-use the message view to view surveys
     url(r'^survey/(?P<survey_id>.*)$', login_required(survey_preview_view), name='survey_preview'),
