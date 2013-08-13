@@ -209,7 +209,8 @@ class Physics_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
         return redirect(settings.DOMAIN_COACH)
 
 class Chem_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Surveys/CHEM130Initial.survey"
+    #survey_document = "Surveys/CHEM130Initial.survey"
+    survey_document = "Surveys/CHEMCLASSSurvey.survey"
     source = 'Source1'
     survey_id = 'CHEM130Initial'
     # HACK-ALERT - set the property which makes survey re-take-able
