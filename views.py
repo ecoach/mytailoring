@@ -33,6 +33,21 @@ def message_view(request, **kwargs):
         main_nav=main_nav(request.user, 'student_view')
         )
 
+def message_frame_view(request, **kwargs):
+    mview = ECoach_Message_View.as_view()
+    # hack the default message for now
+    if kwargs['msg_id'] != '':
+        msg = kwargs['msg_id']
+    else:
+        msg = 'testing'
+    return mview(
+        request, 
+        message=msg, 
+        t_name='mycoach/messageframe.html',
+        inbox_nav=inbox_nav(request.user, msg),
+        main_nav=main_nav(request.user, 'student_view')
+        )
+
 class ECoach_Message_View(TailoredDocView):
 
     def dispatch(self, *args, **kwargs):

@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     # messages
     url(r'^message/(?P<msg_id>.*)$', login_required(message_view), name='message_view'),
+    url(r'^messageframe/(?P<msg_id>.*)$', login_required(message_frame_view), name='message_frame_view'),
     url(r'^messageframerotating/(?P<rotate_count>.*)/(?P<rotation_start_date>.*)/(?P<rotate_frequency>.*)/(?P<msg_id>.*)$', login_required(message_frame_rotating_view), name='message_view'),
 
     # surveys
