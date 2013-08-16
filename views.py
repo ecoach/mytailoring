@@ -225,6 +225,7 @@ class Physics_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
 
 class Chem_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
     survey_document = "Surveys/CHEM130Initial.survey"
+    #survey_document = "Surveys/CHEMCLASSSurvey.survey"
     source = 'Source1'
     survey_id = 'CHEM130Initial'
     # HACK-ALERT - set the property which makes survey re-take-able
@@ -232,6 +233,21 @@ class Chem_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
     def dispatch(self, request, *args, **kwargs):
         # psudo constructor
         return super(Chem_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
+
+    def handle_end_of_survey(self):
+        #Log_Survey(self.request, self.survey_id)    
+        return redirect(settings.DOMAIN_COACH)
+
+class Common_Survey_View(ECoach_Multi_Survey_Mixin):
+    #survey_document = "Surveys/CHEM130Initial.survey"
+    survey_document = "Surveys/CommonSurvey.survey"
+    source = 'Common1'
+    survey_id = 'CommonSurvey'
+    # HACK-ALERT - set the property which makes survey re-take-able
+   
+    def dispatch(self, request, *args, **kwargs):
+        # psudo constructor
+        return super(Common_Survey_View, self).dispatch(request, *args, **kwargs)
 
     def handle_end_of_survey(self):
         #Log_Survey(self.request, self.survey_id)    
@@ -297,6 +313,21 @@ class ECoach_Survey_View(ECoach_Multi_Survey_Mixin):
     def handle_end_of_survey(self):
         Log_Survey(self.request, self.survey_id)    
         return redirect(settings.DOMAIN_COACH)
+
+class ECoach_Survey_View(ECoach_Multi_Survey_Mixin):
+    survey_document = "Messages/Survey01.survey"
+    source = 'Source1'
+    survey_id = 'Survey01'
+    # HACK-ALERT - set the property which makes survey re-take-able
+   
+    def dispatch(self, request, *args, **kwargs):
+        # psudo constructor
+        return super(Survey01_View, self).dispatch(request, *args, **kwargs)
+
+    def handle_end_of_survey(self):
+        Log_Survey(self.request, self.survey_id)    
+        return redirect(settings.DOMAIN_COACH)
+
 """
 
 

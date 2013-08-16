@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 def inbox_nav(user, selected):
     
@@ -52,10 +53,16 @@ def inbox_nav(user, selected):
             ]
         ]
 
-    inbox_nav = []
+    # overwrite the inbox defined statically above
+    all_messages = [] 
+    for ff in allfiles():
+        all_messages.append([ff,'', reverse('mycoach:message_view', kwargs={'msg_id' : ff.split('.')[0]}), 'any', ff])
+   
+    inbox_nav = [] 
     for nn in all_messages:
         # style the selected option
-        if nn[4] == selected:
+        #if nn[4] == selected:
+        if str(nn[4]) == '.'.join([str(selected), 'messages']):
             nn[1] = 'current'
         # permission?
         if nn[3] == 'any':
@@ -64,4 +71,11 @@ def inbox_nav(user, selected):
             inbox_nav.append(nn)
 
     return inbox_nav
+
+def allfiles():
+    from os import listdir
+    from os.path import isfile, join
+    the_dir = settings.DIR_MYDATA + settings.MPROJ_NAME + '/Messages/'
+    msg_files = [ f for f in listdir(the_dir) if isfile(join(the_dir,f)) ]
+    return  msg_files
 
