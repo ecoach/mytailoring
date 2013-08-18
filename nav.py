@@ -61,15 +61,13 @@ def inbox_nav(user, selected):
     inbox_nav = [] 
     for nn in all_messages:
         # style the selected option
-        #if nn[4] == selected:
-        if str(nn[4]) == '.'.join([str(selected), 'messages']):
+        if nn[4] == selected:
             nn[1] = 'current'
-        # permission?
+        # permission
         if nn[3] == 'any':
             inbox_nav.append(nn)
         elif nn[3] == 'staff' and user.is_staff:
             inbox_nav.append(nn)
-
     return inbox_nav
 
 def allfiles():
@@ -79,7 +77,7 @@ def allfiles():
     msg_files = [ f for f in listdir(the_dir) if isfile(join(the_dir,f)) ]
     all_messages = []
     for ff in msg_files:
-        all_messages.append([ff, '', reverse('mycoach:message_view', kwargs={'msg_id' : ff.split('.')[0]}), 'any', ff])
+        all_messages.append([ff, '', reverse('mycoach:message_view', kwargs={'msg_id' : ff.split('.')[0]}), 'any', ff.split('.')[0]])
     return  all_messages
 
 def usermessages(user):
@@ -101,5 +99,5 @@ def usermessages(user):
         inbox.append([msg_file, msg_subject])
     all_messages = []
     for ff in inbox:
-        all_messages.append([ff[1], '', reverse('mycoach:message_view', kwargs={'msg_id' : ff[0]}), 'any', ff])
+        all_messages.append([ff[1], '', reverse('mycoach:message_view', kwargs={'msg_id' : ff[0]}), 'any', ff[0]])
     return  all_messages
