@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
 from django.conf import settings
@@ -117,75 +118,38 @@ class ECoach_Rotating_Message_View(TailoredDocView):
 
         return context
 
-def survey_preview_view(request, **kwargs):
-    mview = ECoach_Survey_Preview_View.as_view()
-    # hack the default message for now
-    if kwargs['survey_id'] != '':
-        survey = kwargs['survey_id']
-    else:
-        survey = 'testsurvey'
-    return mview(
-        request, 
-        survey=survey, 
-        t_name='mycoach/messages.html',
-        inbox_nav=inbox_nav(request.user, survey),
-        main_nav=main_nav(request.user, 'student_view')
-        )
-
-def survey_frame_view(request, **kwargs):
-    mview = ECoach_Survey_Preview_View.as_view()
-    # hack the default message for now
-    if kwargs['survey_id'] != '':
-        survey = kwargs['survey_id']
-    else:
-        survey = 'testsurvey'
-    return mview(
-        request, 
-        survey=survey, 
-        t_name='mycoach/surveyframe.html',
-        inbox_nav=inbox_nav(request.user, survey),
-        main_nav=main_nav(request.user, 'student_view')
-        )
-
-class ECoach_Survey_Preview_View(TailoredDocView):
-
-    def dispatch(self, *args, **kwargs):
-        # psudo constructor
-        request = args[0]
-        self.template_name = kwargs['t_name']
-        self.message_document = 'Surveys/' + kwargs['survey'] + '.survey'
-        self.inbox_nav = kwargs['inbox_nav']
-        self.main_nav = kwargs['main_nav']
-        #configure_source_data(request.user.username)
-        return super(ECoach_Survey_Preview_View, self).dispatch(*args, **kwargs)
-
-    #over ride context creation for the template
-    def get_context_data(self, **kwargs):
-        context = super(ECoach_Survey_Preview_View, self).get_context_data(**kwargs)
-        context["main_nav"] = self.main_nav
-        context["inbox_nav"] = self.inbox_nav
-        return context
-
-class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurveyView):
+class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurveyView):
     survey_document = "none"
     source = 'none' # example
     survey_id = 'none' # example
 
     def dispatch(self, *args, **kwargs):
         # psudo constructor
+        self.template = kwargs['template']
         request = args[0]
+        self.survey_id = kwargs['survey_id']
+        self.survey_document = 'Surveys/' + self.survey_id + '.survey'
+        if self.survey_id == "CommonSurvey": # hack since this is the only common source survey, for now
+            self.source = 'Common1'
+        else:
+            self.source = 'Source1'
         configure_source_data(request.user.username)
         #Log_Request(request)
-        return super(ECoach_Multi_Survey_Mixin, self).dispatch(*args, **kwargs)
+        return super(Single_Survey_View, self).dispatch(*args, **kwargs)
 
+    def get_source(self):
+        return self.source
+    
+    def get_survey_document(self):
+        return self.survey_document
+    
     @property 
     def template_name(self):
-        template = 'mycoach/surveys.html'
-        return template
+        return self.template
  
     #over ride context creation for the template
     def get_context_data(self, **kwargs):
-        context = super(ECoach_Multi_Survey_Mixin, self).get_context_data(**kwargs)
+        context = super(Single_Survey_View, self).get_context_data(**kwargs)
         #context["nav"] = self.m_nav
         return context
 
@@ -193,141 +157,6 @@ class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, Sim
         self.save_subject(self.request_subject)
 
     def handle_end_of_survey(self):
-        return redirect('/')
-
-class MCDB_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Surveys/mcdb310initial.survey"
-    source = 'Source1'
-    survey_id = 'mcdb310initial'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(MCDB_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        #Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-class Physics_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Surveys/PhysicsSurvey.survey"
-    source = 'Source1'
-    survey_id = 'PhysicsSurvey'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(Physics_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        #Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-class Chem_Initial_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Surveys/CHEM130Initial.survey"
-    #survey_document = "Surveys/CHEMCLASSSurvey.survey"
-    source = 'Source1'
-    survey_id = 'CHEM130Initial'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(Chem_Initial_Survey_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        #Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-class Common_Survey_View(ECoach_Multi_Survey_Mixin):
-    #survey_document = "Surveys/CHEM130Initial.survey"
-    survey_document = "Surveys/CommonSurvey.survey"
-    source = 'Common1'
-    survey_id = 'CommonSurvey'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(Common_Survey_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        #Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-"""
-class ECoach_Survey_Preview_View(TailoredDocView):
-
-    def dispatch(self, *args, **kwargs):
-        # psudo constructor
-        request = args[0]
-        self.template_name = kwargs['t_name']
-        self.message_document = 'Surveys/' + kwargs['message'] + '.messages'
-        self.main_nav = kwargs['main_nav']
-        #configure_source_data(request.user.username)
-        return super(ECoach_Message_View, self).dispatch(*args, **kwargs)
-
-    #over ride context creation for the template
-    def get_context_data(self, **kwargs):
-        context = super(ECoach_Survey_Preview_View, self).get_context_data(**kwargs)
-        context["main_nav"] = self.main_nav
-        return context
-
-class ECoach_Multi_Survey_Mixin(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurveyView):
-    survey_document = "none"
-    source = 'none' # example
-    survey_id = 'none' # example
-
-    def dispatch(self, *args, **kwargs):
-        # psudo constructor
-        request = args[0]
-        #configure_source_data(request.user.username)
-        #Log_Request(request)
-        return super(ECoach_Multi_Survey_Mixin, self).dispatch(*args, **kwargs)
-
-    @property 
-    def template_name(self):
-        template = 'mycoach/surveys.html'
-        return template
- 
-    #over ride context creation for the template
-    def get_context_data(self, **kwargs):
-        context = super(ECoach_Multi_Survey_Mixin, self).get_context_data(**kwargs)
-        #context["nav"] = self.m_nav
-        return context
-
-    def on_valid_submission(self):
-        self.save_subject(self.request_subject)
-
-    def handle_end_of_survey(self):
-        return redirect('/')
-
-class ECoach_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Survey01.survey"
-    source = 'Source1'
-    survey_id = 'Survey01'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(Survey01_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-class ECoach_Survey_View(ECoach_Multi_Survey_Mixin):
-    survey_document = "Messages/Survey01.survey"
-    source = 'Source1'
-    survey_id = 'Survey01'
-    # HACK-ALERT - set the property which makes survey re-take-able
-   
-    def dispatch(self, request, *args, **kwargs):
-        # psudo constructor
-        return super(Survey01_View, self).dispatch(request, *args, **kwargs)
-
-    def handle_end_of_survey(self):
-        Log_Survey(self.request, self.survey_id)    
-        return redirect(settings.DOMAIN_COACH)
-
-"""
+        return redirect(reverse('mycoach:default'))
 
 
