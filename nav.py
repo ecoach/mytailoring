@@ -1,5 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from djangotailoring.tailoringrequest import TailoringRequest
+from djangotailoring.subjects import DjangoSubjectLoader
+from djangotailoring.project import getproject
 
 def inbox_nav(user, selected):
     
@@ -54,10 +57,7 @@ def inbox_nav(user, selected):
         ]
 
     # overwrite the inbox defined statically above
-    all_messages = [] 
-    for ff in allfiles():
-        all_messages.append([ff,'', reverse('mycoach:message_view', kwargs={'msg_id' : ff.split('.')[0]}), 'any', ff])
-   
+    all_messages = usermessages(user)
     inbox_nav = [] 
     for nn in all_messages:
         # style the selected option
@@ -77,5 +77,29 @@ def allfiles():
     from os.path import isfile, join
     the_dir = settings.DIR_MYDATA + settings.MPROJ_NAME + '/Messages/'
     msg_files = [ f for f in listdir(the_dir) if isfile(join(the_dir,f)) ]
-    return  msg_files
+    all_messages = []
+    for ff in msg_files:
+        all_messages.append([ff, '', reverse('mycoach:message_view', kwargs={'msg_id' : ff.split('.')[0]}), 'any', ff])
+    return  all_messages
 
+def usermessages(user):
+    project = getproject()
+    docpath = settings.DIR_MYDATA + settings.MPROJ_NAME + '/Messages/inbox.messages'
+    subject = user.get_profile().tailoringsubject
+    ibm = TailoringRequest(project, docpath, subject)
+    if not 'InboxControl' in ibm.sections.keys():
+        return allfiles() 
+    elemtree = ibm.render_section('InboxControl')
+    messages = elemtree[0]
+    inbox = []
+    for mm in messages: 
+        for prop in mm:
+            if prop.tag == 'file':
+                msg_file = prop.text
+            elif prop.tag == 'subject':
+                msg_subject = prop.text
+        inbox.append([msg_file, msg_subject])
+    all_messages = []
+    for ff in inbox:
+        all_messages.append([ff[1], '', reverse('mycoach:message_view', kwargs={'msg_id' : ff[0]}), 'any', ff])
+    return  all_messages

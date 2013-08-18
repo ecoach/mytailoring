@@ -25,9 +25,7 @@ class Single_Message_View(TailoredDocView):
         request = args[0]
         self.template_name = kwargs['template']
         self.message_document = 'Messages/' + kwargs['msg_id'] + '.messages'
-        #self.inbox_nav = kwargs['inbox_nav']
         self.inbox_nav = inbox_nav(request.user, kwargs['msg_id'])
-        #self.main_nav = kwargs['main_nav']
         self.main_nav = main_nav(request.user, 'student_view')
         configure_source_data(request.user.username)
         return super(Single_Message_View, self).dispatch(*args, **kwargs)
