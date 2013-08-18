@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^surveyframe/(?P<survey_id>.*)/(?P<page_id>.*)$', login_required(Single_Survey_View.as_view()), {'template': 'mycoach/surveyframe.html'}),
 
     # re-use the message view to view surveys
-    url(r'^', login_required(Single_Message_View.as_view()), {'msg_id': 'testing', 'template': 'mycoach/messages.html'}, name='default'),
+    url(r'^', login_required(Single_Message_View.as_view()), {'msg_id': 'home', 'template': 'mycoach/messages.html'}, name='default'),
 
 )
 
