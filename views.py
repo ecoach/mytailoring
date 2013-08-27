@@ -46,6 +46,10 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
         # psudo constructor
         request = args[0]
         self.template = kwargs['template']
+        if 'frame' in self.template:
+            self.end_of_survey = request.META['PATH_INFO']
+        else:
+            self.end_of_survey = reverse('mycoach:default')
         self.survey_id = kwargs['survey_id']
         self.survey_document = 'Surveys/' + self.survey_id + '.survey'
         if self.survey_id == "CommonSurvey": # hack since this is the only common source survey, for now
@@ -76,6 +80,6 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
         self.save_subject(self.request_subject)
 
     def handle_end_of_survey(self):
-        return redirect(reverse('mycoach:default'))
+        return redirect(self.end_of_survey)
 
 
