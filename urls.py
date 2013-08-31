@@ -21,7 +21,6 @@ urlpatterns = patterns('',
 
     # re-use the message view to view surveys
     url(r'^', login_required(Single_Message_View.as_view()), {'msg_id': 'home', 'template': 'mycoach/messages.html'}, name='default'),
-
 )
 
 
