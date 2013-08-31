@@ -18,6 +18,9 @@ mydata = import_module(settings.MYDATA)
 myutils = import_module(settings.MYDATA + '.utils')
 configure_source_data = myutils.configure_source_data
 
+def redirect_view(request):
+    return redirect(reverse('mycoach:message_view', kwargs={'msg_id' : 'home'}))
+
 class Single_Message_View(TailoredDocView):
 
     def dispatch(self, *args, **kwargs):
