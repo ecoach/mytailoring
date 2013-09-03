@@ -18,11 +18,20 @@ mydata = import_module(settings.MYDATA)
 myutils = import_module(settings.MYDATA + '.utils')
 configure_source_data = myutils.configure_source_data
 
+def redirect_view(request):
+    return redirect(reverse('mycoach:message_view', kwargs={'msg_id' : 'home'}))
+
+def wrong_server(request):
+    return HttpResponse("These are not the droids you're looking for! You are on the development server... try here: <a href='ecoach.lsa.umich.edu'>ecoach.lsa.umich.edu</a>")
+
 class Single_Message_View(TailoredDocView):
 
     def dispatch(self, *args, **kwargs):
         # psudo constructor
         request = args[0]
+        if settings.HOST == "DEVELOPMENT":
+            if not request.user.is_staff:
+                return wrong_server(request) 
         self.template_name = kwargs['template']
         self.message_document = 'Messages/' + kwargs['msg_id'] + '.messages'
         self.inbox_nav = inbox_nav(request.user, kwargs['msg_id'])
@@ -45,6 +54,9 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
     def dispatch(self, *args, **kwargs):
         # psudo constructor
         request = args[0]
+        if settings.HOST == "DEVELOPMENT":
+            if not request.user.is_staff:
+                return wrong_server(request) 
         self.template = kwargs['template']
         if 'frame' in self.template:
             self.end_of_survey = request.META['PATH_INFO']
