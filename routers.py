@@ -46,10 +46,11 @@ class UserRouter(object):
         if obj1._meta.object_name == 'User' or obj2._meta.object_name == 'User':
             return True
         return None
-
+    """
     def allow_syncdb(self, db, model):
         if db == 'default':
             return model._meta.object_name == 'User'
         elif model._meta.object_name == 'User':
             return False
         return None
+    """
