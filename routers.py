@@ -28,3 +28,28 @@ class CommonRouter(object):
         elif model._meta.object_name == 'Common1':
             return False
         return None
+
+class UserRouter(object):
+    """A router to fix where ORM looks for User object"""
+
+    def db_for_read(self, model, **hints):
+        if model._meta.object_name == 'User':
+            return 'default'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.object_name == 'User':
+            return 'default'
+        return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        if obj1._meta.object_name == 'User' or obj2._meta.object_name == 'User':
+            return True
+        return None
+
+    def allow_syncdb(self, db, model):
+        if db == 'default':
+            return model._meta.object_name == 'User'
+        elif model._meta.object_name == 'User':
+            return False
+        return None
