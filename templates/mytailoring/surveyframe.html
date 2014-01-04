@@ -1,0 +1,25 @@
+{% extends 'base_minimal.html' %}
+
+{% block head_extra %}
+    {% include "mytailoring/base_message_head.html" %}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {    
+            ecoach.messages.initReady();
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    {% load tailoring2tags %}
+    {% load surveytags %}
+    <div id="message-content" class="span9">
+        <form action="" method="post" id="full-page-survey">
+            {% csrf_token %}
+            {% render_survey_segment chunk %}
+        </form>
+    </div>
+{% endblock %}
+
+

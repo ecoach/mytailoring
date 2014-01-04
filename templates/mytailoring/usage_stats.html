@@ -1,0 +1,144 @@
+{% extends 'new_base.html' %}
+
+{% comment %}
+comment exmaple
+{% endcomment %}
+
+
+{% block first_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu1_options'>
+    <tr>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "home" %}>Student Pages</a>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "mylogout" %}>Logout: {{user.username}}</a>
+        </td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block second_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu2_options'>
+    <tr>
+        {% if user.is_authenticated %}  
+            {% for items in nav.main_menu %}
+                <td class='{{items.1}}'> <a href="/{{items.2}}/"><nobr>{{items.0}}</nobr></a></td><td>&nbsp</td>
+            {% endfor %}
+        {% endif %} 
+    </tr>
+</table>
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_staff %}  
+        Click here to <a href={% url "download_mysql" %}>download</a> copy of the mysql database.
+        <hr>
+
+        Number of students who completed surveys: {{surveys_completed}} 
+        <br>
+
+        <table border='0'>
+            <tr>
+                <td>Number of students who completed surveys by course:</td>
+                <th>140</th>
+                <th>240</th>
+                <th>135</th>
+                <th>235</th>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>{{surveys.completed140}}</td>
+                <td>{{surveys.completed240}}</td>
+                <td>{{surveys.completed135}}</td>
+                <td>{{surveys.completed235}}</td>
+            </tr>
+        </table>
+
+        Number of students who began surveys but didn't complete them: {{surveys_incomplete}} 
+        <br>
+        Number of students who visited the site but didn't start a survey: {{surveys_not_started}} 
+
+        
+
+
+        <hr>
+        Student attitude summary:
+        <ul> 
+            <li>
+            {{memorize_personal}} agreements with: "...physics is about memorizing information..."
+            </li>
+            <li>
+            {{math_confidence}} agreements with: "...basic math will pose a challenge..."
+            </li>
+            <li>
+            {{trust_calc}} agreements with: "...i just trust the calculation..."
+            </li>
+            <li>
+            {{hard_work_solve}} agreements with: "...working harder won't help problem solving..."
+            </li>
+            <li>
+            {{innate}} agreements with: "...understanding physics is innate..."
+            </li>
+            <li>
+            {{memorize_general}} agreements with: "...understanding physics is about recall..."
+            </li>
+            <li>
+            {{recall_formula}} agreements with: "...understanding formulas is a waste of time..."
+            </li>
+            <li>
+            {{apply_principles}} agreements with: "...physics is not about fundamental principles..."
+            </li>
+            <li>
+            {{hard_work_understand}} agreements with: "...working harder won't help understanding..."
+            </li>
+        </ul>
+        <hr>
+        There are {{slc_interest}} students planning or already signed up for SLC.
+
+        <hr>
+        Usage summary by student, excluding surveys:
+        <table border='1'>
+            <tr>
+                <th>User</th>
+                <th>Clicks</th>
+            </tr>
+        {% for user in clicks_student %}
+            <tr>
+            {% for key,val in user.items %}
+                <td>{{val}}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+
+            <hr>
+        Usage summary by page:
+        <table border='1'>
+            <tr>
+                <th>Page</th>
+                <th>Clicks</th>
+            </tr>
+        {% for user in clicks_page %}
+            <tr>
+            {% for key,val in user.items %}
+                <td>{{val}}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+
+        {% comment %}
+        {% for key,value in args.items %}
+            {{key}} :<b> {{ value }}</b>
+            <br>
+        {% endfor %}
+        document.form1.submit()
+        {% endcomment %}
+    {% else %}
+        You don't have staff permissions.
+    {% endif %} 
+{% endblock %}

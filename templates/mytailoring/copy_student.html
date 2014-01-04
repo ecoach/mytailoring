@@ -1,0 +1,92 @@
+{% extends 'new_base.html' %}
+
+{% comment %}
+comment exmaple
+{% endcomment %}
+
+
+{% block first_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu1_options'>
+    <tr>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "home" %}>Student Pages</a>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "mylogout" %}>Logout: {{user.username}}</a>
+        </td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block second_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu2_options'>
+    <tr>
+        {% if user.is_authenticated %}  
+            {% for items in nav.main_menu %}
+                <td class='{{items.1}}'> <a href="/{{items.2}}/"><nobr>{{items.0}}</nobr></a></td><td>&nbsp</td>
+            {% endfor %}
+        {% endif %} 
+    </tr>
+</table>
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_staff %}  
+        {% comment %}
+        {% for key,value in args.items %}
+            {{key}} :<b> {{ value }}</b>
+            <br>
+        {% endfor %}
+        document.form1.submit()
+        {% endcomment %}
+        <form action="." name='form1' id='form1' method="GET">
+            <input type='hidden' value='none' name='copy_student' id='copy_student'>
+            {% csrf_token %}
+            <center>Click on the copy button next to a student to copy their data into your account.  Then go to <a href={% url "home" %}> Student Pages</a> to review their messages.</center>
+            <center><h2>Who did I just copy? : {{copy_student}}</h2></center>
+            <br>
+            <table id='copy_table' name='copy_table' border='1' style='border-collapse:collapse;' align='center'>
+                <tr>
+                    <!--<th>username</th>-->
+                    <th>user_id</th> 
+                    <th>Clicks</th> 
+                    <th>Survey</th> 
+                    <th>First Name</th> 
+                    <th>Last Name</th> 
+                    <th>Gender</th> 
+                    <th>Course</th> 
+                    <th>GPA</th> 
+                    <th>Semesters</th> 
+                    <th>College</th> 
+                    <th>Grade Want</th> 
+                    <th>Confidence</th> 
+                    <th></th> 
+                </tr>
+            {% for ss in students %}
+                <tr>
+                    <!--<td>{{ss.username}}</td>-->
+                    <td>{{ss.w_13data__user_id}}</td>
+                    <td>{{ss.clicks}}</td>
+                    <td>{{ss.w_13data__First_Survey_Complete}}</td>
+                    <td>{{ss.w_13data__First_Name}}</td>
+                    <td>{{ss.w_13data__Last_Name}}</td>
+                    <td>{{ss.w_13data__Gender}}</td>
+                    <td>{{ss.w_13data__Course}}</td>
+                    <td>{{ss.w_13data__Cum_GPA_Survey}}</td>
+                    <td>{{ss.w_13data__Semesters_Completed}}</td>
+                    <td>{{ss.w_13data__College}}</td>
+                    <td>{{ss.w_13data__Grade_Want}}</td>
+                    <td>{{ss.w_13data__Confidence}}</td>
+                    <!--alert(jQuery('#copy_student').val());-->
+                    <td><input type='submit' onclick=" jQuery('#copy_student').val('{{ss.username}}');" value='copy'></input></td>
+                </tr>
+            {% endfor %} 
+            </table>
+        </form>
+    {% else %}
+        You don't have staff permissions.
+    {% endif %} 
+{% endblock %}

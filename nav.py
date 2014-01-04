@@ -14,7 +14,7 @@ def inbox_nav(user, selected):
             #               'selected'
             ["[DEMO] Kenny's first demo message<br>(testing.message)", 
                 '',  
-                    reverse('mycoach:message_view', kwargs={'msg_id' : 'testing'}),
+                    reverse('mytailoring:message_view', kwargs={'msg_id' : 'testing'}),
                         'any',
                             'testing',
 
@@ -76,5 +76,5 @@ def usermessages(user):
         inbox.append([msg_file, msg_subject])
     all_messages = []
     for ff in inbox:
-        all_messages.append([ff[1], '', reverse('mycoach:message_view', kwargs={'msg_id' : ff[0]}), 'any', ff[0]])
+        all_messages.append([ff[1], '', reverse('mytailoring:message_view', kwargs={'msg_id' : ff[0]}), 'any', ff[0]])
     return  all_messages

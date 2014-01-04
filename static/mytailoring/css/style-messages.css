@@ -1,0 +1,231 @@
+/* Message Styles */
+	
+#message-content ul {
+	margin-top: 10px;
+}
+
+#message-content blockquote {
+	margin-top: 20px;
+	font-style: italic;
+}
+
+#message-content .well {
+	margin-top: 20px;
+}
+
+#message-content .well hr {
+	border-top-color: #e5e5e5;
+}
+
+#message-content .well.light-bulb,
+#message-content .well.student-advice,
+#message-content .well.question,
+#message-content .well.uncheckbox,
+#message-content .well.checkbox  {
+	background-repeat: no-repeat;
+	background-position: 20px ;
+	padding-left: 90px;
+}
+
+@media (max-width: 480px) {
+	#message-content .well.light-bulb,
+	#message-content .well.student-advice,
+	#message-content .well.question,
+	#message-content .well.uncheckbox,
+	#message-content .well.checkbox  {
+		background-repeat: no-repeat;
+		background-position: center 10px;
+		padding: 64px 19px 19px 19px;
+	}
+}
+
+#message-content .well.light-bulb {
+	background-image: url("../img/light-bulb.png");
+}
+
+#message-content .well.student-advice {
+	background-image: url("../img/student-advice.png");
+}
+
+#message-content .well.question {
+	background-image: url("../img/question.png");
+}
+
+#message-content .well.uncheckbox {
+	background-image: url("../img/uncheckbox.png");
+}
+
+#message-content .well.checkbox {
+	background-image: url("../img/checkbox.png");
+}
+
+#message-content .well h2 {
+	margin-top: 0;
+	font-size: 16px;
+	line-height: 20px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+@media (min-width: 768px) {
+	/* Some standard heights for "well" modules */
+	#message-content .well.height1 { min-height: 50px; }
+	#message-content .well.height2 { min-height: 100px; }
+	#message-content .well.height3 { min-height: 150px; }
+	#message-content .well.height4 { min-height: 200px; }
+	#message-content .well.height5 { min-height: 250px; }
+	#message-content .well.height6 { min-height: 300px; }
+	#message-content .well.height7 { min-height: 350px; }
+	#message-content .well.height8 { min-height: 400px; }
+	#message-content .well.height9 { min-height: 450px; }
+	#message-content .well.height10 { min-height: 500px; }
+	#message-content .well.height11 { min-height: 550px; }
+	#message-content .well.height12 { min-height: 600px; }	
+}
+
+
+#message-content div.photo-quote img {
+	width: inherit;
+	margin-top: 20px;
+}
+
+#message-content .survey_prompt, #message-content .survey_responses {
+	margin-bottom: 10px;
+}
+
+#message-content .survey_responses .survey_response input {
+	margin: 0 10px 2px 0;
+}
+
+#message-content label {
+	font-size: inherit;
+}
+
+#message-content .nav-tabs {
+	margin-bottom: -1px;
+}
+#message-content .tab-content {
+	padding-top: 10px;
+	width: 100%;
+}
+
+#message-content .landscape-warning {
+	display: none;
+}
+
+@media (max-width: 480px) {
+	#message-content .landscape-warning {
+		display: block;
+	}
+}
+
+@media (min-width: 768px) {
+	#message-content .modal {
+	    /* new custom width */
+	    width: 590px;
+	    /* must be half of the width, minus scrollbar on the left (30px) */
+	    margin-left: -265px;
+	}
+}
+
+#message-content .thumbnail .caption {
+	text-align: center;
+	font-weight: bold;
+}
+
+#message-content .thumbnail .survey_responses {
+	margin-bottom: 0;
+}
+
+#message-content a.clickable-icon {
+	color: #000;
+}
+
+#message-content a.clickable-icon:hover {
+	color: inherit;
+	text-decoration: none;
+}
+
+#message-content a.helpful-icon {
+	margin-left: 8px;
+}
+
+#message-content a i.icon-thumbs-up-alt {
+	color: #555;
+}
+
+#message-content a i.icon-thumbs-up-alt:hover {
+	color: #000;
+}
+
+#message-content .thumbnail {
+	margin-top:	5px;	
+	margin-bottom: 10px;
+	-webkit-border-radius: 0;
+	   -moz-border-radius: 0;
+	        border-radius: 0;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+			box-shadow: none;
+}
+
+#message-content .thumbnail.pull-right {
+	margin-left: 20px;
+}
+
+#message-content .thumbnail.pull-left {
+	margin-right: 20px;
+}
+
+#message-content .thumbnail p {
+	font-size: 11px;
+	line-height: 14px;
+	margin-bottom: 0;
+	margin-top: 2px;
+	margin-left: 4px;
+}
+
+#message-content [class*="span"] .thumbnail {
+	max-width: 100%;
+}
+
+#message-content iframe {
+	width: 100%;
+}
+
+html.minimal, html.minimal body {
+	height: inherit;
+	margin: 0;
+	padding: 0;
+}
+
+html.minimal #Main_Text {
+	margin-top: 0;
+}
+
+html.minimal #message-content {
+	margin-left: 1px;
+}
+/* Surveys */
+
+.survey_error {
+    color: red;
+}
+
+.gtd_checkbox {
+    float: left;
+}
+
+.gtd_text {
+    padding-left: 22px;
+}
+
+.textarea500 textarea{
+    height: 100px;
+    width: 500px;
+}
+
+.textarea1000 textarea{
+    height: 500px;
+    width: 500px;
+}

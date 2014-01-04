@@ -1,0 +1,79 @@
+{% extends 'new_base.html' %}
+
+{% comment %}
+comment exmaple
+{% endcomment %}
+
+{% block head_extra %}
+    <script type"text/JavaScript" src="{{ STATIC_URL }}mytailoring/ecoach/js/checkout.js"></script> 
+{% endblock %}
+
+{% block first_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu1_options'>
+    <tr>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "home" %}>Student Pages</a>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td class='menu1_option'>
+            <a href={% url "mylogout" %}>Logout: {{user.username}}</a>
+        </td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block second_menu %}
+<table style="border-collapse: collapse;" border='0' class='menu2_options'>
+    <tr>
+        {% if user.is_authenticated %}  
+            {% for items in nav.main_menu %}
+                <td class='{{items.1}}'> <a href="/{{items.2}}/"><nobr>{{items.0}}</nobr></a></td><td>&nbsp</td>
+            {% endfor %}
+        {% endif %} 
+    </tr>
+</table>
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_staff %}  
+        {% comment %}
+        {% for key,value in args.items %}
+            {{key}} :<b> {{ value }}</b>
+            <br>
+        {% endfor %}
+        <form action={% url "mycheckout" %} method="GET">
+            <input type="checkbox" name="trigger" id="trigger" value="checked"></input>
+            <input type="submit" /> 
+        </form>
+        {% endcomment %}
+
+        <center>
+            <input type="button" value='Run Checkout' onclick="start_checkout();" /> 
+            <input type="textbox" name='countdown' id='countdown' style="width: 300px;" value='--' disabled='true'" /> 
+        </center>
+
+        <center>
+        Select a user and a message using the drop-down boxes and then click submit to view the message rendered for that user.
+        <form action="." method="GET">
+            <br>
+            <select name="students" id="students">
+            {% for item in student_choices%}
+                <option value="{{ item }}" {% if item == student_choice %}selected="1"{% endif %}>{{ item }}</option>
+            {% endfor %}
+            </select>
+            <select name="messages" id="messages">
+            {% for item in message_choices%}
+                <option value="{{ item }}" {% if item == message_choice %}selected="1"{% endif %}>{{ item }}</option>
+            {% endfor %}
+            </select>
+            <input type="submit" /> 
+        </form>
+        </center>
+        <hr>
+        {% load tailoring2tags %}
+        {% tailoring2_debug on %}
+        {% render_section treq "Main_Text" %}
+    {% endif %} 
+{% endblock %}

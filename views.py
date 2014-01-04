@@ -19,7 +19,7 @@ myutils = import_module(settings.MYDATA + '.utils')
 configure_source_data = myutils.configure_source_data
 
 def redirect_view(request):
-    return redirect(reverse('mycoach:message_view', kwargs={'msg_id' : 'home'}))
+    return redirect(reverse('mytailoring:message_view', kwargs={'msg_id' : 'home'}))
 
 def wrong_server(request):
     return HttpResponse("These are not the droids you're looking for! You are on the development server... try here: <a href='ecoach.lsa.umich.edu'>ecoach.lsa.umich.edu</a>")
@@ -61,7 +61,7 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
         if 'frame' in self.template:
             self.end_of_survey = request.META['PATH_INFO']
         else:
-            self.end_of_survey = reverse('mycoach:default')
+            self.end_of_survey = reverse('mytailoring:default')
         self.survey_id = kwargs['survey_id']
         self.survey_document = 'Surveys/' + self.survey_id + '.survey'
         if self.survey_id == "CommonSurvey": # hack since this is the only common source survey, for now
