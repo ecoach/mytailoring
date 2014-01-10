@@ -14,7 +14,7 @@ from djangotailoring.surveys.views import SinglePageSurveyView, SimpleSurveyView
 # mydataX imports
 from django.utils.importlib import import_module
 mydata = import_module(settings.MYDATA)
-#Source1 = mydata.models.Source1
+Source1 = mydata.models.Source1
 myutils = import_module(settings.MYDATA + '.utils')
 configure_source_data = myutils.configure_source_data
 
@@ -92,6 +92,13 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
         self.save_subject(self.request_subject)
 
     def handle_end_of_survey(self):
+        if self.survey_id == 'StatSurvey': # HACK-ALERT this is also another custom gotcha
+            try:
+                sdata = Source1.objects.filter(user_id=self.request.user)[0]
+                sdata.Tailoring_Level = sdata.id % 2
+                sdata.save()
+            except:
+                pass
         return redirect(self.end_of_survey)
 
 
