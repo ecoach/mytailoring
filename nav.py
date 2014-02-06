@@ -47,6 +47,7 @@ def all_messages_nav(user, selected):
             inbox_nav.append(nn)
         elif nn[3] == 'staff' and user.is_staff:
             inbox_nav.append(nn)
+    inbox_nav = sorted(inbox_nav, key=lambda student: inbox_nav[4]) 
     return inbox_nav
 
 def allfiles():
