@@ -64,7 +64,7 @@ class Single_Survey_View(LoginRequiredMixin, UserProfileSubjectMixin, SimpleSurv
             self.end_of_survey = reverse('mytailoring:default')
         self.survey_id = kwargs['survey_id']
         self.survey_document = 'Surveys/' + self.survey_id + '.survey'
-        if self.survey_id in ["CommonSurvey", "chem130common_short"]: # HACK-ALERT this has to be manually updated whenver someone adds a common survey
+        if self.survey_id in ["CommonSurvey", "chem130common_short", "class_standing"]: # HACK-ALERT this has to be manually updated whenver someone adds a common survey
             self.source = 'Common1'
         else:
             self.source = 'Source1'
