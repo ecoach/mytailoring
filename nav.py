@@ -53,7 +53,7 @@ def all_messages_nav(user, selected):
 def allfiles():
     from os import listdir
     from os.path import isfile, join
-    the_dir = settings.DIR_MYDATA + settings.MPROJ_NAME + '/Messages/'
+    the_dir = settings.DIR_PROJ + settings.MPROJ_NAME + '/Messages/'
     msg_files = [ f for f in listdir(the_dir) if isfile(join(the_dir,f)) ]
     all_messages = []
     for ff in msg_files:
@@ -62,7 +62,7 @@ def allfiles():
 
 def usermessages(user):
     project = getproject()
-    docpath = settings.DIR_MYDATA + settings.MPROJ_NAME + '/Messages/inbox.messages'
+    docpath = settings.DIR_PROJ + settings.MPROJ_NAME + '/Messages/inbox.messages'
     subject = user.get_profile().tailoringsubject
     ibm = TailoringRequest(project, docpath, subject)
     elemtree = ibm.render_section('InboxControl')
